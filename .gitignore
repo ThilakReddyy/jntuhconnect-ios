@@ -1,0 +1,16 @@
+# Local API configuration
+Config/Secrets.xcconfig
+
+# Xcode and macOS user state
+DerivedData/
+build/
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.xcresult
+.DS_Store
+
+# Generated visual review and test output
+Screenshots/
+TestArtifacts/

@@ -1,0 +1,772 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		064C59DE39F444E068612BB9 /* ResultEntrySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40462BB9D1934AE1E455FB4 /* ResultEntrySheet.swift */; };
+		06ABDB358236C72EE42EC70D /* APIRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC135308BD8EA352C7A6D27 /* APIRequestFactory.swift */; };
+		076BA51BAFAD4D5F34A9CEB8 /* UnifiedStudentResultComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CFAF793B5FA7D8933C5C /* UnifiedStudentResultComponents.swift */; };
+		0786655912F9D0BCF307F595 /* ResultFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F82EF00C82B32DA7C4B532 /* ResultFlowTests.swift */; };
+		0CDE99D5210B6FF59C9EDEE9 /* UpdatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D3EE7D69839BA89A0F7C4D /* UpdatesView.swift */; };
+		0FC00241C9A039629595C5A2 /* AcademicResultDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22750F97B1FD22646087992C /* AcademicResultDecodingTests.swift */; };
+		13CDA106DC64F5B1681AE932 /* EndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07F9D6B7D0AE29C4F53BEF4 /* EndpointTests.swift */; };
+		18B8C8F49FA3554BAF2D9A25 /* APIRequestFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0023CDFFE9C6555B058BF54 /* APIRequestFactoryTests.swift */; };
+		1E853D75E9407F3A75E7F217 /* LiveAPIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB7C15512843E731853C54 /* LiveAPIIntegrationTests.swift */; };
+		298BC76158906D8BA3211692 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DAB2DBE4E91AD08C1B15CA4 /* ExploreView.swift */; };
+		2AF16A0C6245AE812B8465BF /* HTTPResponseInterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A772252C0C9D9027FAD58A /* HTTPResponseInterpreterTests.swift */; };
+		2B7A9A73CE99F25FF30FEF19 /* GraceProofValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05369AF51C45975DF2071248 /* GraceProofValidationTests.swift */; };
+		3E17FF217AB4990AD5272E01 /* ResourceScreensUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E164D90A5A6996372364F310 /* ResourceScreensUITests.swift */; };
+		3F94D7078AADC62FD1D04EBC /* AppLinkPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EA1945588A5D31C42D5C0F /* AppLinkPolicy.swift */; };
+		403DEF9C083B58F9DD1E9605 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24345632335A046EAFD542C0 /* APIClient.swift */; };
+		4C15179C6D0FCBD69373D621 /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCD2663B8EBF4E306371996 /* ContentModels.swift */; };
+		4D06DAD14F065DC6C308CEAB /* StudentResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54565B63342C114B282AB623 /* StudentResultView.swift */; };
+		5574347140610BF5E4CB0FFD /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F4F8F498AC116744E0A1E2 /* RootView.swift */; };
+		58255FB8F7568466D6057FF4 /* RollNumberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65307E728C7F402FFEBA969 /* RollNumberTests.swift */; };
+		587491977C40B243A63C432D /* RecentSearchPrivacyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7C988E57F335DD2755AA7 /* RecentSearchPrivacyTests.swift */; };
+		67289AE8B99D9CFF88644063 /* RollNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7DE8C2328C1CDB7983868C /* RollNumber.swift */; };
+		6B4B51B87F37366908D37AFD /* HTTPResponseInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB629F2335E741CA4BB3D /* HTTPResponseInterpreter.swift */; };
+		7ACB7226741A6F5F94EE3593 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4A952C67015F68E319CC13EC /* PrivacyInfo.xcprivacy */; };
+		7DB2C372FB1A855785A98AF3 /* ExtendedResultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B2313B0AEB9B545580FC5E /* ExtendedResultModels.swift */; };
+		83A78B9EA5054D7FF2B559E2 /* ResultDesignParityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2B407451719D7C9E91EC53 /* ResultDesignParityUITests.swift */; };
+		8905BAB13021E3642301C3FB /* RecentSearchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4E201FF309BF7219ECC1C6 /* RecentSearchStore.swift */; };
+		8DA6EA6B75F406F3C12EAB0D /* InAppBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3DF3CE58D5C3E828D51A7 /* InAppBrowser.swift */; };
+		AA630D293B395623C9ED9DC4 /* ResultFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16D209F4C8D5B0A9765640D /* ResultFlowUITests.swift */; };
+		AB976F3F8FF5EA88B2DB7F6D /* ResultFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85387FB8BFFECF8B5F461209 /* ResultFlow.swift */; };
+		B1E16387D542BDB1EA7DEC73 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D5EBB40112D8D7760D6073 /* AppTheme.swift */; };
+		B5A91A2CB36AAE20B2EBCFA7 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB33D3DB3D5267354505AD1 /* Models.swift */; };
+		B6D1894047A3C7125B83E757 /* StudentResultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB99AAF043ED5868890529B /* StudentResultStore.swift */; };
+		B9941647F485EABBFD777769 /* JntuhConnectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05712CF6A50B7DBE02158873 /* JntuhConnectApp.swift */; };
+		BF6DDEFE8155138FA3EC4301 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6D8155C47FB4C9DD995D8 /* Endpoint.swift */; };
+		C46F06325DF441F7C563DA3B /* NotificationLinkSafetyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA7777DC133EDB2C9846735 /* NotificationLinkSafetyTests.swift */; };
+		C7D74143182F8F7F1A017E5B /* ExtendedResultsDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D961CD12E991E2BFEC21F1 /* ExtendedResultsDecodingTests.swift */; };
+		CB2C7E17BDF7777249403A76 /* ContentTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE99FBE0423D2C8BED16D16 /* ContentTreeTests.swift */; };
+		D1E8DA059A376E8BDA829454 /* UpdatesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3DF5EE8BC2FFF0D9FE5B9C /* UpdatesStore.swift */; };
+		D322919C4D390F2CFFA3660E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F3384F86D34D172A58D344A /* Assets.xcassets */; };
+		D6588E54C30AB05E3545F89B /* ResourceScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = E589A7CE2FF37E2F955940EA /* ResourceScreens.swift */; };
+		E5B6F5A951DAF965436101D7 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA87C3583A46599806F94476 /* ProfileView.swift */; };
+		E7D101BA92F5F89A80185FE1 /* ExtendedResultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD26D1670D4FAF2CFE08A7 /* ExtendedResultStore.swift */; };
+		EC73EB0A8A204EB4117D496E /* ExtendedResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B193B36492B492365D8D96 /* ExtendedResultView.swift */; };
+		EF5FC655707F3C43CED85DDF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D21FF365CBBF1A6FDE5D3B /* HomeView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7C737C7FDA6E44A75A237EAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5FC1A5CF8C0FDEE18BD4F78D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CE0C8D25905025F524B1EA0;
+			remoteInfo = JntuhConnect;
+		};
+		D33033B41B0E9BFDA6B5365F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5FC1A5CF8C0FDEE18BD4F78D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CE0C8D25905025F524B1EA0;
+			remoteInfo = JntuhConnect;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		05369AF51C45975DF2071248 /* GraceProofValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceProofValidationTests.swift; sourceTree = "<group>"; };
+		05712CF6A50B7DBE02158873 /* JntuhConnectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JntuhConnectApp.swift; sourceTree = "<group>"; };
+		07B2313B0AEB9B545580FC5E /* ExtendedResultModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedResultModels.swift; sourceTree = "<group>"; };
+		08BD26D1670D4FAF2CFE08A7 /* ExtendedResultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedResultStore.swift; sourceTree = "<group>"; };
+		09D961CD12E991E2BFEC21F1 /* ExtendedResultsDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedResultsDecodingTests.swift; sourceTree = "<group>"; };
+		0AC7C988E57F335DD2755AA7 /* RecentSearchPrivacyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchPrivacyTests.swift; sourceTree = "<group>"; };
+		0F3384F86D34D172A58D344A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1EE99FBE0423D2C8BED16D16 /* ContentTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTreeTests.swift; sourceTree = "<group>"; };
+		22750F97B1FD22646087992C /* AcademicResultDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicResultDecodingTests.swift; sourceTree = "<group>"; };
+		24345632335A046EAFD542C0 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		2BE3DF3CE58D5C3E828D51A7 /* InAppBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppBrowser.swift; sourceTree = "<group>"; };
+		2DAB2DBE4E91AD08C1B15CA4 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		30EA1945588A5D31C42D5C0F /* AppLinkPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinkPolicy.swift; sourceTree = "<group>"; };
+		38DDA4843959948FAA6CC14A /* JntuhConnect.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JntuhConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F9EB629F2335E741CA4BB3D /* HTTPResponseInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseInterpreter.swift; sourceTree = "<group>"; };
+		4A952C67015F68E319CC13EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		4EB99AAF043ED5868890529B /* StudentResultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentResultStore.swift; sourceTree = "<group>"; };
+		4FA7777DC133EDB2C9846735 /* NotificationLinkSafetyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationLinkSafetyTests.swift; sourceTree = "<group>"; };
+		54565B63342C114B282AB623 /* StudentResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentResultView.swift; sourceTree = "<group>"; };
+		5EB33D3DB3D5267354505AD1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		688BD1C3D1A24735485AB966 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		68D5EBB40112D8D7760D6073 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		6BC135308BD8EA352C7A6D27 /* APIRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestFactory.swift; sourceTree = "<group>"; };
+		71F6D8155C47FB4C9DD995D8 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		7A3DF5EE8BC2FFF0D9FE5B9C /* UpdatesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesStore.swift; sourceTree = "<group>"; };
+		85387FB8BFFECF8B5F461209 /* ResultFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFlow.swift; sourceTree = "<group>"; };
+		8751201EF141B4369AF19EAA /* JntuhConnectUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JntuhConnectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		92F4F8F498AC116744E0A1E2 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		96B193B36492B492365D8D96 /* ExtendedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedResultView.swift; sourceTree = "<group>"; };
+		A07F9D6B7D0AE29C4F53BEF4 /* EndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointTests.swift; sourceTree = "<group>"; };
+		A16D209F4C8D5B0A9765640D /* ResultFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFlowUITests.swift; sourceTree = "<group>"; };
+		A40462BB9D1934AE1E455FB4 /* ResultEntrySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultEntrySheet.swift; sourceTree = "<group>"; };
+		ABDB7C15512843E731853C54 /* LiveAPIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveAPIIntegrationTests.swift; sourceTree = "<group>"; };
+		B8D3EE7D69839BA89A0F7C4D /* UpdatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesView.swift; sourceTree = "<group>"; };
+		C0023CDFFE9C6555B058BF54 /* APIRequestFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestFactoryTests.swift; sourceTree = "<group>"; };
+		C8F82EF00C82B32DA7C4B532 /* ResultFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFlowTests.swift; sourceTree = "<group>"; };
+		CB2B407451719D7C9E91EC53 /* ResultDesignParityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDesignParityUITests.swift; sourceTree = "<group>"; };
+		CD4E201FF309BF7219ECC1C6 /* RecentSearchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchStore.swift; sourceTree = "<group>"; };
+		CEC3C87664EA133A343C568E /* JntuhConnectTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JntuhConnectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D65307E728C7F402FFEBA969 /* RollNumberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollNumberTests.swift; sourceTree = "<group>"; };
+		DA7DE8C2328C1CDB7983868C /* RollNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollNumber.swift; sourceTree = "<group>"; };
+		E164D90A5A6996372364F310 /* ResourceScreensUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceScreensUITests.swift; sourceTree = "<group>"; };
+		E1D21FF365CBBF1A6FDE5D3B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E589A7CE2FF37E2F955940EA /* ResourceScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceScreens.swift; sourceTree = "<group>"; };
+		EA87C3583A46599806F94476 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		EBA30BA92CDC408DFC80ABCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EBCD2663B8EBF4E306371996 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
+		F0A772252C0C9D9027FAD58A /* HTTPResponseInterpreterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseInterpreterTests.swift; sourceTree = "<group>"; };
+		FA44CFAF793B5FA7D8933C5C /* UnifiedStudentResultComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedStudentResultComponents.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2559AF978430EC2E3409E803 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				24345632335A046EAFD542C0 /* APIClient.swift */,
+				6BC135308BD8EA352C7A6D27 /* APIRequestFactory.swift */,
+				71F6D8155C47FB4C9DD995D8 /* Endpoint.swift */,
+				3F9EB629F2335E741CA4BB3D /* HTTPResponseInterpreter.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		27747345E5A394C4D3B989BE /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				688BD1C3D1A24735485AB966 /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		3CA87DEB846E51F966FEBF36 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				68D5EBB40112D8D7760D6073 /* AppTheme.swift */,
+				2BE3DF3CE58D5C3E828D51A7 /* InAppBrowser.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		55906470BE02E27F2E496C88 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				08BD26D1670D4FAF2CFE08A7 /* ExtendedResultStore.swift */,
+				96B193B36492B492365D8D96 /* ExtendedResultView.swift */,
+				A40462BB9D1934AE1E455FB4 /* ResultEntrySheet.swift */,
+				4EB99AAF043ED5868890529B /* StudentResultStore.swift */,
+				54565B63342C114B282AB623 /* StudentResultView.swift */,
+				FA44CFAF793B5FA7D8933C5C /* UnifiedStudentResultComponents.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		645DEC9F84E6FA60A7167E5E = {
+			isa = PBXGroup;
+			children = (
+				27747345E5A394C4D3B989BE /* Config */,
+				8371D53A5E71279F811DD3D9 /* JntuhConnect */,
+				879AECC745E4FA124F5C11FA /* JntuhConnectTests */,
+				883532F2C8C52DAD9740F6A6 /* JntuhConnectUITests */,
+				A6A7671110CABD06F6B016E3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		69350A061D6FCD47D909F19D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				05712CF6A50B7DBE02158873 /* JntuhConnectApp.swift */,
+				92F4F8F498AC116744E0A1E2 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		735DEB1AE0F8E50A37BED9AE /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				BF3A12EE37C239A4467C4E4B /* Explore */,
+				9DD9F8E9A5AC0A4C88A159FC /* Home */,
+				E2115B61F9AC259D457A6327 /* Profile */,
+				55906470BE02E27F2E496C88 /* Results */,
+				E3834AF9B3B99584BF544E05 /* Updates */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		7544340399BF8275AAFA5253 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				30EA1945588A5D31C42D5C0F /* AppLinkPolicy.swift */,
+				EBCD2663B8EBF4E306371996 /* ContentModels.swift */,
+				07B2313B0AEB9B545580FC5E /* ExtendedResultModels.swift */,
+				5EB33D3DB3D5267354505AD1 /* Models.swift */,
+				CD4E201FF309BF7219ECC1C6 /* RecentSearchStore.swift */,
+				85387FB8BFFECF8B5F461209 /* ResultFlow.swift */,
+				DA7DE8C2328C1CDB7983868C /* RollNumber.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		8371D53A5E71279F811DD3D9 /* JntuhConnect */ = {
+			isa = PBXGroup;
+			children = (
+				69350A061D6FCD47D909F19D /* App */,
+				3CA87DEB846E51F966FEBF36 /* Design */,
+				7544340399BF8275AAFA5253 /* Domain */,
+				735DEB1AE0F8E50A37BED9AE /* Features */,
+				2559AF978430EC2E3409E803 /* Networking */,
+				FB48331345E56761FC3293B5 /* Resources */,
+			);
+			path = JntuhConnect;
+			sourceTree = "<group>";
+		};
+		879AECC745E4FA124F5C11FA /* JntuhConnectTests */ = {
+			isa = PBXGroup;
+			children = (
+				22750F97B1FD22646087992C /* AcademicResultDecodingTests.swift */,
+				C0023CDFFE9C6555B058BF54 /* APIRequestFactoryTests.swift */,
+				1EE99FBE0423D2C8BED16D16 /* ContentTreeTests.swift */,
+				A07F9D6B7D0AE29C4F53BEF4 /* EndpointTests.swift */,
+				09D961CD12E991E2BFEC21F1 /* ExtendedResultsDecodingTests.swift */,
+				05369AF51C45975DF2071248 /* GraceProofValidationTests.swift */,
+				F0A772252C0C9D9027FAD58A /* HTTPResponseInterpreterTests.swift */,
+				ABDB7C15512843E731853C54 /* LiveAPIIntegrationTests.swift */,
+				4FA7777DC133EDB2C9846735 /* NotificationLinkSafetyTests.swift */,
+				0AC7C988E57F335DD2755AA7 /* RecentSearchPrivacyTests.swift */,
+				C8F82EF00C82B32DA7C4B532 /* ResultFlowTests.swift */,
+				D65307E728C7F402FFEBA969 /* RollNumberTests.swift */,
+			);
+			path = JntuhConnectTests;
+			sourceTree = "<group>";
+		};
+		883532F2C8C52DAD9740F6A6 /* JntuhConnectUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E164D90A5A6996372364F310 /* ResourceScreensUITests.swift */,
+				CB2B407451719D7C9E91EC53 /* ResultDesignParityUITests.swift */,
+				A16D209F4C8D5B0A9765640D /* ResultFlowUITests.swift */,
+			);
+			path = JntuhConnectUITests;
+			sourceTree = "<group>";
+		};
+		9DD9F8E9A5AC0A4C88A159FC /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E1D21FF365CBBF1A6FDE5D3B /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		A6A7671110CABD06F6B016E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				38DDA4843959948FAA6CC14A /* JntuhConnect.app */,
+				CEC3C87664EA133A343C568E /* JntuhConnectTests.xctest */,
+				8751201EF141B4369AF19EAA /* JntuhConnectUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BF3A12EE37C239A4467C4E4B /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				2DAB2DBE4E91AD08C1B15CA4 /* ExploreView.swift */,
+				E589A7CE2FF37E2F955940EA /* ResourceScreens.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		E2115B61F9AC259D457A6327 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				EA87C3583A46599806F94476 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		E3834AF9B3B99584BF544E05 /* Updates */ = {
+			isa = PBXGroup;
+			children = (
+				7A3DF5EE8BC2FFF0D9FE5B9C /* UpdatesStore.swift */,
+				B8D3EE7D69839BA89A0F7C4D /* UpdatesView.swift */,
+			);
+			path = Updates;
+			sourceTree = "<group>";
+		};
+		FB48331345E56761FC3293B5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0F3384F86D34D172A58D344A /* Assets.xcassets */,
+				EBA30BA92CDC408DFC80ABCB /* Info.plist */,
+				4A952C67015F68E319CC13EC /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		29A2D250174421F047FBDDFB /* JntuhConnectTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E86AB0A3625096926C849EC /* Build configuration list for PBXNativeTarget "JntuhConnectTests" */;
+			buildPhases = (
+				E03AC1BDC3A4A7FD159A259E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6710E6A03B1A6143490C68AA /* PBXTargetDependency */,
+			);
+			name = JntuhConnectTests;
+			packageProductDependencies = (
+			);
+			productName = JntuhConnectTests;
+			productReference = CEC3C87664EA133A343C568E /* JntuhConnectTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3CE0C8D25905025F524B1EA0 /* JntuhConnect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 546B45F6020A4A1324361B05 /* Build configuration list for PBXNativeTarget "JntuhConnect" */;
+			buildPhases = (
+				1F9F419DA1255A51042DB67D /* Sources */,
+				04D4230E77745F853761E9A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JntuhConnect;
+			packageProductDependencies = (
+			);
+			productName = JntuhConnect;
+			productReference = 38DDA4843959948FAA6CC14A /* JntuhConnect.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ADA2556960F1C1DC0674BB3B /* JntuhConnectUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 528BD100A6C810984E7F0BF4 /* Build configuration list for PBXNativeTarget "JntuhConnectUITests" */;
+			buildPhases = (
+				274185633BC1F2F192F58CBB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28B1E2DC2906E807A5F745EF /* PBXTargetDependency */,
+			);
+			name = JntuhConnectUITests;
+			packageProductDependencies = (
+			);
+			productName = JntuhConnectUITests;
+			productReference = 8751201EF141B4369AF19EAA /* JntuhConnectUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5FC1A5CF8C0FDEE18BD4F78D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3CE0C8D25905025F524B1EA0 = {
+						DevelopmentTeam = CJYZD3579U;
+						ProvisioningStyle = Automatic;
+					};
+					ADA2556960F1C1DC0674BB3B = {
+						TestTargetID = 3CE0C8D25905025F524B1EA0;
+					};
+				};
+			};
+			buildConfigurationList = 3E73CDEC3100E216E64BB044 /* Build configuration list for PBXProject "JntuhConnect" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 645DEC9F84E6FA60A7167E5E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A6A7671110CABD06F6B016E3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3CE0C8D25905025F524B1EA0 /* JntuhConnect */,
+				29A2D250174421F047FBDDFB /* JntuhConnectTests */,
+				ADA2556960F1C1DC0674BB3B /* JntuhConnectUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04D4230E77745F853761E9A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322919C4D390F2CFFA3660E /* Assets.xcassets in Resources */,
+				7ACB7226741A6F5F94EE3593 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F9F419DA1255A51042DB67D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				403DEF9C083B58F9DD1E9605 /* APIClient.swift in Sources */,
+				06ABDB358236C72EE42EC70D /* APIRequestFactory.swift in Sources */,
+				3F94D7078AADC62FD1D04EBC /* AppLinkPolicy.swift in Sources */,
+				B1E16387D542BDB1EA7DEC73 /* AppTheme.swift in Sources */,
+				4C15179C6D0FCBD69373D621 /* ContentModels.swift in Sources */,
+				BF6DDEFE8155138FA3EC4301 /* Endpoint.swift in Sources */,
+				298BC76158906D8BA3211692 /* ExploreView.swift in Sources */,
+				7DB2C372FB1A855785A98AF3 /* ExtendedResultModels.swift in Sources */,
+				E7D101BA92F5F89A80185FE1 /* ExtendedResultStore.swift in Sources */,
+				EC73EB0A8A204EB4117D496E /* ExtendedResultView.swift in Sources */,
+				6B4B51B87F37366908D37AFD /* HTTPResponseInterpreter.swift in Sources */,
+				EF5FC655707F3C43CED85DDF /* HomeView.swift in Sources */,
+				8DA6EA6B75F406F3C12EAB0D /* InAppBrowser.swift in Sources */,
+				B9941647F485EABBFD777769 /* JntuhConnectApp.swift in Sources */,
+				B5A91A2CB36AAE20B2EBCFA7 /* Models.swift in Sources */,
+				E5B6F5A951DAF965436101D7 /* ProfileView.swift in Sources */,
+				8905BAB13021E3642301C3FB /* RecentSearchStore.swift in Sources */,
+				D6588E54C30AB05E3545F89B /* ResourceScreens.swift in Sources */,
+				064C59DE39F444E068612BB9 /* ResultEntrySheet.swift in Sources */,
+				AB976F3F8FF5EA88B2DB7F6D /* ResultFlow.swift in Sources */,
+				67289AE8B99D9CFF88644063 /* RollNumber.swift in Sources */,
+				5574347140610BF5E4CB0FFD /* RootView.swift in Sources */,
+				B6D1894047A3C7125B83E757 /* StudentResultStore.swift in Sources */,
+				4D06DAD14F065DC6C308CEAB /* StudentResultView.swift in Sources */,
+				076BA51BAFAD4D5F34A9CEB8 /* UnifiedStudentResultComponents.swift in Sources */,
+				D1E8DA059A376E8BDA829454 /* UpdatesStore.swift in Sources */,
+				0CDE99D5210B6FF59C9EDEE9 /* UpdatesView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274185633BC1F2F192F58CBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3E17FF217AB4990AD5272E01 /* ResourceScreensUITests.swift in Sources */,
+				83A78B9EA5054D7FF2B559E2 /* ResultDesignParityUITests.swift in Sources */,
+				AA630D293B395623C9ED9DC4 /* ResultFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E03AC1BDC3A4A7FD159A259E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B8C8F49FA3554BAF2D9A25 /* APIRequestFactoryTests.swift in Sources */,
+				0FC00241C9A039629595C5A2 /* AcademicResultDecodingTests.swift in Sources */,
+				CB2C7E17BDF7777249403A76 /* ContentTreeTests.swift in Sources */,
+				13CDA106DC64F5B1681AE932 /* EndpointTests.swift in Sources */,
+				C7D74143182F8F7F1A017E5B /* ExtendedResultsDecodingTests.swift in Sources */,
+				2B7A9A73CE99F25FF30FEF19 /* GraceProofValidationTests.swift in Sources */,
+				2AF16A0C6245AE812B8465BF /* HTTPResponseInterpreterTests.swift in Sources */,
+				1E853D75E9407F3A75E7F217 /* LiveAPIIntegrationTests.swift in Sources */,
+				C46F06325DF441F7C563DA3B /* NotificationLinkSafetyTests.swift in Sources */,
+				587491977C40B243A63C432D /* RecentSearchPrivacyTests.swift in Sources */,
+				0786655912F9D0BCF307F595 /* ResultFlowTests.swift in Sources */,
+				58255FB8F7568466D6057FF4 /* RollNumberTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28B1E2DC2906E807A5F745EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CE0C8D25905025F524B1EA0 /* JntuhConnect */;
+			targetProxy = 7C737C7FDA6E44A75A237EAC /* PBXContainerItemProxy */;
+		};
+		6710E6A03B1A6143490C68AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CE0C8D25905025F524B1EA0 /* JntuhConnect */;
+			targetProxy = D33033B41B0E9BFDA6B5365F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0CF55F0192D31D5F60A5CC11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = JntuhConnect;
+			};
+			name = Release;
+		};
+		0ECCE9E16BC5229E2BAB13E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 688BD1C3D1A24735485AB966 /* Secrets.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CJYZD3579U;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = JntuhConnect/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		37EE88DDCC8220EE3D17EE93 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JntuhConnect.app/JntuhConnect";
+			};
+			name = Release;
+		};
+		57D7D0308DF2134A225C81E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = JntuhConnect;
+			};
+			name = Debug;
+		};
+		724D6D55FCA1796D115F94BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 688BD1C3D1A24735485AB966 /* Secrets.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CJYZD3579U;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = JntuhConnect/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		78481D850B2B9B740B1C1A87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A718A142836F4C4866B9ED97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JntuhConnect.app/JntuhConnect";
+			};
+			name = Debug;
+		};
+		FDC527E22866BEB0023C62E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3E73CDEC3100E216E64BB044 /* Build configuration list for PBXProject "JntuhConnect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78481D850B2B9B740B1C1A87 /* Debug */,
+				FDC527E22866BEB0023C62E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4E86AB0A3625096926C849EC /* Build configuration list for PBXNativeTarget "JntuhConnectTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A718A142836F4C4866B9ED97 /* Debug */,
+				37EE88DDCC8220EE3D17EE93 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		528BD100A6C810984E7F0BF4 /* Build configuration list for PBXNativeTarget "JntuhConnectUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57D7D0308DF2134A225C81E4 /* Debug */,
+				0CF55F0192D31D5F60A5CC11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		546B45F6020A4A1324361B05 /* Build configuration list for PBXNativeTarget "JntuhConnect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				724D6D55FCA1796D115F94BA /* Debug */,
+				0ECCE9E16BC5229E2BAB13E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5FC1A5CF8C0FDEE18BD4F78D /* Project object */;
+}
