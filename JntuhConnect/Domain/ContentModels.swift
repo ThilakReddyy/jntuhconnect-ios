@@ -39,7 +39,12 @@ indirect enum ContentNode: Decodable, Hashable, Sendable {
         if var array = try? decoder.unkeyedContainer() {
             var documents: [ContentDocument] = []
             while !array.isAtEnd {
-                guard let raw = try? array.decode(RawContentDocument.self) else { continue }
+                // `superDecoder()` advances the unkeyed container even when the
+                // element cannot be decoded as a document. Decoding directly from
+                // `array` would leave the index unchanged after a type mismatch and
+                // retry the same malformed value forever.
+                let elementDecoder = try array.superDecoder()
+                guard let raw = try? RawContentDocument(from: elementDecoder) else { continue }
                 if let document = raw.document { documents.append(document) }
             }
             self = .documents(documents)

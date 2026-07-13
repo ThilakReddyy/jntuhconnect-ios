@@ -51,6 +51,12 @@ struct HomeView: View {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
+            .onScrollPhaseChange { _, phase in
+                if phase.isScrolling {
+                    isRollFieldFocused = false
+                }
+            }
             .onScrollGeometryChange(for: Bool.self) { scrollGeometry in
                 scrollGeometry.contentOffset.y > 12
             } action: { _, isVisible in
@@ -65,7 +71,6 @@ struct HomeView: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .scrollDismissesKeyboard(.immediately)
         .background {
             Color.appBackground
                 .onTapGesture { isRollFieldFocused = false }

@@ -384,41 +384,63 @@ struct ExtendedResultView: View {
             let rhs = $1.results?.totalBacklogs ?? 0
             return lhs == rhs ? $0.details.rollNumber < $1.details.rollNumber : lhs > rhs
         }
+        let unsynced = students.filter { $0.results == nil }
+            .sorted { $0.details.rollNumber < $1.details.rollNumber }
 
         return ScrollView {
             LazyVStack(spacing: 10) {
                 classForm
-                if ranked.isEmpty {
+                if ranked.isEmpty && unsynced.isEmpty {
                     ContentUnavailableView(
                         "No backlogs in this class 🎉",
                         systemImage: "checkmark.seal",
                         description: Text("Every student has cleared their subjects.")
                     )
                     .frame(minHeight: 280)
-                } else {
+                }
+
+                if !ranked.isEmpty {
                     ResultListHeading(title: "\(ranked.count) students with backlogs", detail: "Most backlogs first")
                     ForEach(ranked) { student in
-                        HStack(spacing: 12) {
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(student.details.name).font(.subheadline.weight(.semibold))
-                                    .fixedSize(horizontal: false, vertical: true)
-                                Text(student.details.rollNumber).font(.caption.monospaced()).foregroundStyle(.secondary)
-                            }
-                            Spacer(minLength: 8)
-                            Text("\(student.results?.totalBacklogs ?? 0) backlog(s)")
-                                .font(.caption.weight(.semibold)).foregroundStyle(.red)
-                                .padding(.horizontal, 9).padding(.vertical, 5)
-                                .background(Color.red.opacity(0.10), in: Capsule())
-                        }
-                        .padding(14)
-                        .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .accessibilityElement(children: .combine)
+                        classBacklogStudentRow(student, totalBacklogs: student.results?.totalBacklogs)
+                    }
+                }
+
+                if !unsynced.isEmpty {
+                    ResultListHeading(title: "Not synced", detail: "Backlog status unavailable")
+                    ForEach(unsynced) { student in
+                        classBacklogStudentRow(student, totalBacklogs: nil)
                     }
                 }
             }
             .padding(16)
             .padding(.bottom, 28)
         }
+    }
+
+    private func classBacklogStudentRow(_ student: ClassBacklogStudent, totalBacklogs: Int?) -> some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(student.details.name).font(.subheadline.weight(.semibold))
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(student.details.rollNumber).font(.caption.monospaced()).foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 8)
+            if let totalBacklogs {
+                Text("\(totalBacklogs) backlog(s)")
+                    .font(.caption.weight(.semibold)).foregroundStyle(.red)
+                    .padding(.horizontal, 9).padding(.vertical, 5)
+                    .background(Color.red.opacity(0.10), in: Capsule())
+            } else {
+                Text("Unavailable")
+                    .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                    .padding(.horizontal, 9).padding(.vertical, 5)
+                    .background(Color.secondary.opacity(0.10), in: Capsule())
+            }
+        }
+        .padding(14)
+        .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .accessibilityElement(children: .combine)
     }
 
     private func graceView(_ response: GraceEligibilityResponse) -> some View {

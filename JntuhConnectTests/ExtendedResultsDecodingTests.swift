@@ -25,4 +25,11 @@ struct ExtendedResultsDecodingTests {
         let students = try JSONDecoder().decode([ClassResultStudent].self, from: data)
         #expect(students.first?.results == nil)
     }
+
+    @Test func classBacklogAcceptsEmptyArrayForUnsyncedStudent() throws {
+        let data = Data(#"[{"details":{"collegeCode":"E51","fatherName":"P","name":"Student","rollNumber":"18E51A0479","branch":"ECE"},"results":[]}]"#.utf8)
+        let students = try JSONDecoder().decode([ClassBacklogStudent].self, from: data)
+
+        #expect(students.first?.results == nil)
+    }
 }
