@@ -66,7 +66,7 @@ struct ExploreView: View {
                 }
             }
             .overlay(alignment: .top) {
-                StatusBarScrollGlass(height: geometry.safeAreaInsets.top, minimumHeight: 68)
+                StatusBarScrollGlass(height: geometry.safeAreaInsets.top)
                     .opacity(isTopGlassVisible ? 1 : 0)
                     .allowsHitTesting(false)
             }
