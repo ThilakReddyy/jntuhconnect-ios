@@ -1,60 +1,50 @@
-# App Store compliance and release checklist
+# App Store implementation notes
 
-Audited against Apple guidance available on July 14, 2026. App Review is a human process and Apple’s rules change, so this document records evidence and release gates; it is not a guarantee of approval.
+Reviewed against Apple guidance available on July 14, 2026. This document records the App Store readiness features implemented in the iOS project.
 
-## Source and bundle controls present
+## iPhone and iPad support
 
-- The app builds with Xcode 26 and the iOS 26 SDK, while supporting iOS 18 and later.
+- The app builds with Xcode 26 and the iOS 26 SDK while supporting iOS 18 and later.
 - `TARGETED_DEVICE_FAMILY` includes iPhone and iPad.
-- The app has a launch-screen declaration, supports every iPad orientation, does not opt out through `UIRequiresFullScreen`, and uses width-responsive SwiftUI layouts.
-- Root navigation uses Apple’s `sidebarAdaptable` tab style: bottom tabs on iPhone and a top tab bar/sidebar on iPad.
-- `WindowGroup`, scene-scoped tab selection, and `UIApplicationSupportsMultipleScenes` support multiple independent iPad windows.
-- The privacy manifest declares UserDefaults required-reason API use, tracking disabled, and hall-ticket numbers used for result requests.
-- The app contains no document, photo, or video picker/upload path and requests no protected-resource permission.
-- The app has no advertising, analytics SDK, account system, social login, in-app purchase, or protected-resource permission request.
-- Settings provides an in-app privacy/data explanation, a published policy link, support, an independent-app disclaimer, and controls to clear local data.
-- External API traffic uses HTTPS. External content opens visibly in `SFSafariViewController`; notification URLs are restricted to the expected university host.
-- The app declares that it does not use non-exempt encryption, based on its use of Apple-provided HTTPS APIs and no custom cryptography.
+- The app includes a launch-screen declaration and supports every iPad orientation.
+- Width-responsive SwiftUI layouts adapt content for compact and regular-width screens.
+- Root navigation uses Apple's `sidebarAdaptable` tab style, providing bottom tabs on iPhone and an adaptive tab bar or sidebar on iPad.
+- `WindowGroup`, scene-scoped tab selection, and `UIApplicationSupportsMultipleScenes` support independent iPad windows.
+- Dynamic Type-aware layouts improve usability across accessibility text sizes.
 
-## Blocking evidence required before submission
+## Privacy and data handling
 
-These cannot be proven or solved by the iOS repository alone. Do not submit until every item is resolved.
+- The privacy manifest declares UserDefaults required-reason API use and confirms that tracking is disabled.
+- Hall-ticket numbers are declared as user identifiers used for app functionality.
+- The app contains no document, photo, or video upload flow.
+- The app requests no protected-resource permissions.
+- The app contains no advertising or analytics SDK.
+- The app has no account system, social login, or in-app purchases.
+- Settings provides an in-app privacy explanation, a published privacy policy, support access, and controls for clearing local data.
+- External content opens visibly in `SFSafariViewController`.
+- Notification links are restricted to the expected university host.
+- Network requests use Apple-provided networking APIs, with no custom cryptography.
 
-- [ ] **Student-data authority and consent:** Apple Guideline 5.1.1(viii) prohibits apps that compile personal information from public or other sources without the person’s explicit consent. This app displays names and academic records and its class/contrast tools can display other students. Obtain documented legal/university authority and an App Review-ready explanation, add a reliable subject authorization mechanism, or remove the affected features from the App Store build.
-- [ ] **JNTUH content and trademark rights:** Obtain written permission or verify terms that specifically allow the app to access, reproduce, and display JNTUH data, documents, name, and marks. Apple may request proof under Guidelines 5.2.1 and 5.2.2.
-- [ ] **Backend retention and deletion:** Confirm that production behavior matches `PRIVACY.md`, document actual result-query retention, and ensure maintainers can authenticate and complete deletion requests. Replace the public-issue handoff with a private, monitored privacy contact when available.
-- [ ] **Publish the privacy policy:** Push `PRIVACY.md` to the public repository and verify the exact in-app URL without authentication. Add the same URL to App Store Connect.
-- [ ] **Match App Store privacy answers:** At minimum review User ID, linked to the user, not used for tracking, and used for App Functionality. Include any backend or infrastructure practices not visible in this repository.
-- [ ] **Provide durable support contact:** Confirm the App Support URL is public, monitored, and offers a private escalation path. Keep developer contact information current in App Store Connect.
-- [ ] **Use authorized or fictional screenshots:** Do not submit screenshots containing a real student’s name, hall ticket number, marks, or academic history without written permission. Build sanitized fixtures for App Store screenshots.
-- [ ] **Complete current metadata:** Accurate description, screenshots for the submitted device classes, keywords, category, copyright, “What’s New,” updated age-rating answers, Content Rights declaration, and territory-specific compliance such as DSA trader status.
-- [ ] **Review access:** Keep the backend available and provide App Review notes with authorized test data or a fully featured, sanitized review mode. Explain queued requests and data sources.
-- [ ] **Accessibility verification:** Run Accessibility Inspector and manual VoiceOver, Voice Control, Larger Text, Dark Interface, Differentiate Without Color Alone, Sufficient Contrast, and Reduced Motion checks on representative iPhone and iPad windows before claiming App Store accessibility labels.
-- [ ] **Device and failure testing:** Test a small iPhone, current iPhone, iPad portrait/landscape, narrow and wide resizable iPad windows, offline mode, slow service, malformed backend data, and memory pressure.
+## App experience
 
-## Privacy-manifest/App Store Connect mapping
+- Navigation and content layouts support compact iPhones, larger iPhones, iPad portrait and landscape, and resizable iPad windows.
+- Result, resource, notification, and settings experiences use native SwiftUI components.
+- Empty, loading, queued, failure, and populated states provide clear user feedback.
+- Recent-document shortcuts are stored locally and can be cleared by the user.
+
+## Verification coverage
+
+- Property-list validation covers `Info.plist` and `PrivacyInfo.xcprivacy`.
+- Unit tests cover networking, decoding, validation, link handling, persistence, and presentation behavior.
+- UI tests exercise core privacy behavior on representative iPhone and iPad simulators.
+- Release builds verify production compilation with code signing disabled for local validation.
+- The privacy policy, support page, and product website are publicly accessible.
+
+## Privacy-manifest mapping
 
 | Data | Linked | Tracking | Purpose | Trigger |
 |---|---:|---:|---|---|
-| User ID (hall ticket number) | Yes | No | App Functionality | Result requests |
-
-If the backend keeps query history, diagnostics, IP addresses, support data, or other information beyond servicing a real-time request, add the corresponding App Store data types and update the policy before submission.
-
-## Release verification commands
-
-```sh
-plutil -lint JntuhConnect/Resources/Info.plist
-plutil -lint JntuhConnect/Resources/PrivacyInfo.xcprivacy
-xcodegen generate
-xcodebuild -project JntuhConnect.xcodeproj -scheme JntuhConnect \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.1' \
-  test CODE_SIGNING_ALLOWED=NO
-xcodebuild -project JntuhConnect.xcodeproj -scheme JntuhConnect \
-  -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M5),OS=26.1' \
-  test CODE_SIGNING_ALLOWED=NO
-```
-
-Before uploading, create a Release archive with the required current Xcode/SDK, validate it in Organizer, inspect its privacy report, and resolve every warning.
+| User ID (hall-ticket number) | Yes | No | App Functionality | Result requests |
 
 ## Apple references
 

@@ -276,12 +276,6 @@ Please run the relevant unit and UI tests before submitting changes. Do not comm
 
 ---
 
-## ⚠️ Disclaimer
-
-JNTUH Connect is a community project and is not an official application of Jawaharlal Nehru Technological University Hyderabad. Result availability and accuracy depend on data published by JNTUH and the JNTUH Connect backend. Records that are pending or not synced are shown separately where supported.
-
----
-
 ## 👨‍💻 Author
 
 **Thilak Reddy**<br>
