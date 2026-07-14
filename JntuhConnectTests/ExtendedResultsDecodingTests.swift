@@ -3,8 +3,9 @@ import Testing
 @testable import JntuhConnect
 
 struct ExtendedResultsDecodingTests {
-    @Test func decodesAllResultAttempts() throws {
-        let data = Data(#"{"details":{"collegeCode":"E51","fatherName":"Parent","name":"Student","rollNumber":"18E51A0479","branch":"ECE"},"results":[{"semester":"1-1","exams":[{"examCode":"101","rcrv":false,"graceMarks":false,"subjects":[{"credits":3,"externalMarks":60,"grades":"A","internalMarks":20,"subjectCode":"M1","subjectName":"Math","totalMarks":80}]}]}]}"#.utf8)
+    @Test func decodesAllResultAttemptsAndIgnoresAdditionalBackendFields() throws {
+        // The API may add fields that this client does not use. Codable safely ignores them.
+        let data = Data(#"{"details":{"collegeCode":"E51","fatherName":"Parent","name":"Student","rollNumber":"18E51A0479","branch":"ECE"},"results":[{"semester":"1-1","exams":[{"examCode":"101","rcrv":false,"unusedBackendFlag":false,"subjects":[{"credits":3,"externalMarks":60,"grades":"A","internalMarks":20,"subjectCode":"M1","subjectName":"Math","totalMarks":80}]}]}]}"#.utf8)
         let response = try JSONDecoder().decode(AllResultsResponse.self, from: data)
         #expect(response.results.first?.exams.first?.subjects.first?.subjectCode == "M1")
     }

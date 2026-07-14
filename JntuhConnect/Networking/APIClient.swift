@@ -55,40 +55,4 @@ actor APIClient {
         }
     }
 
-    func uploadGraceProof(data: Data, filename: String, mimeType: String, rollNumber: String) async throws -> GraceProofUploadResponse {
-        guard let apiKey, !apiKey.isEmpty else { throw APIError.missingAPIConfiguration }
-        try GraceProofFile.validate(size: data.count, mimeType: mimeType)
-
-        let url = try Endpoint.graceProof(rollNumber: rollNumber).url(relativeTo: baseURL)
-        let boundary = "JNTUHConnect-\(UUID().uuidString)"
-        let safeFilename = filename.replacingOccurrences(of: "\"", with: "")
-        var body = Data()
-        func append(_ value: String) { body.append(Data(value.utf8)) }
-        append("--\(boundary)\r\n")
-        append("Content-Disposition: form-data; name=\"file\"; filename=\"\(safeFilename)\"\r\n")
-        append("Content-Type: \(mimeType)\r\n\r\n")
-        body.append(data)
-        append("\r\n--\(boundary)--\r\n")
-
-        var request = APIRequestFactory.makeRequest(url: url, apiKey: apiKey)
-        request.httpMethod = "POST"
-        request.timeoutInterval = 60
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body
-
-        do {
-            let (responseData, response) = try await session.data(for: request)
-            let validatedData = try HTTPResponseInterpreter.validate(data: responseData, response: response)
-            return try decoder.decode(GraceProofUploadResponse.self, from: validatedData)
-        } catch let error as APIError {
-            throw error
-        } catch let error as URLError where error.code == .notConnectedToInternet {
-            throw APIError.offline
-        } catch let error as URLError where error.code == .timedOut {
-            throw APIError.timedOut
-        } catch is DecodingError {
-            throw APIError.decoding
-        }
-    }
-
 }

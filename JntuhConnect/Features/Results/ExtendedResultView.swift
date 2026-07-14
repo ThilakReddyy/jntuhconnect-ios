@@ -1,16 +1,13 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct ExtendedResultView: View {
     let request: ResultRequest
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var activeRequest: ResultRequest
     @State private var classRollText: String
     @State private var classMode: ClassResultMode
     @State private var classValidationMessage: String?
     @State private var store = ExtendedResultStore()
-    @State private var isPickingProof = false
-    @State private var selectedProofURL: URL?
-    @State private var isConfirmingProof = false
     @FocusState private var isClassRollFocused: Bool
 
     init(request: ResultRequest) {
@@ -55,29 +52,6 @@ struct ExtendedResultView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarVisibility(.hidden, for: .tabBar)
         .task(id: activeRequest.id) { await store.load(activeRequest) }
-        .fileImporter(
-            isPresented: $isPickingProof,
-            allowedContentTypes: [.pdf, .png, .jpeg],
-            allowsMultipleSelection: false
-        ) { result in
-            if case .success(let urls) = result, let url = urls.first {
-                selectedProofURL = url
-                isConfirmingProof = true
-            }
-        }
-        .confirmationDialog(
-            "Submit consolidated marksheet?",
-            isPresented: $isConfirmingProof,
-            titleVisibility: .visible
-        ) {
-            Button("Upload for review") {
-                guard let url = selectedProofURL else { return }
-                Task { await store.uploadProof(from: url, rollNumber: activeRequest.primary) }
-            }
-            Button("Cancel", role: .cancel) { selectedProofURL = nil }
-        } message: {
-            Text("This submits proof for eligibility review. It does not apply for or award grace marks.")
-        }
     }
 
     private func statusView(_ title: String, _ message: String, _ symbol: String) -> some View {
@@ -100,7 +74,6 @@ struct ExtendedResultView: View {
         case .contrast(let response): contrastView(response)
         case .classResults(let students): classView(students)
         case .classBacklogs(let students): classBacklogView(students)
-        case .grace(let response): graceView(response)
         }
     }
 
@@ -209,10 +182,13 @@ struct ExtendedResultView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Text(profile.name).font(.headline)
                         Text(profile.rollNumber).font(.subheadline.monospaced()).foregroundStyle(.secondary)
-                        HStack {
-                            MetricPill(label: "CGPA", value: profile.cgpa)
-                            MetricPill(label: "Credits", value: profile.credits.formatted())
-                            MetricPill(label: "Backlogs", value: profile.backlogs.formatted())
+                        ViewThatFits(in: .horizontal) {
+                            HStack {
+                                contrastMetrics(profile)
+                            }
+                            VStack {
+                                contrastMetrics(profile)
+                            }
                         }
                     }
                     .padding(16)
@@ -274,14 +250,7 @@ struct ExtendedResultView: View {
             .frame(minHeight: 50)
             .background(Color.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
 
-            Picker("Result type", selection: $classMode) {
-                ForEach(ClassResultMode.allCases) { mode in Text(mode.title).tag(mode) }
-            }
-            .pickerStyle(.segmented)
-            .onChange(of: classMode) { _, mode in
-                isClassRollFocused = false
-                loadClass(mode: mode)
-            }
+            classModePicker
 
             if let classValidationMessage {
                 Label(classValidationMessage, systemImage: "exclamationmark.circle.fill")
@@ -298,6 +267,36 @@ struct ExtendedResultView: View {
         }
         .padding(16)
         .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+
+    @ViewBuilder
+    private var classModePicker: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            Picker("Result type", selection: $classMode) {
+                ForEach(ClassResultMode.allCases) { mode in Text(mode.title).tag(mode) }
+            }
+            .pickerStyle(.menu)
+            .onChange(of: classMode) { _, mode in
+                isClassRollFocused = false
+                loadClass(mode: mode)
+            }
+        } else {
+            Picker("Result type", selection: $classMode) {
+                ForEach(ClassResultMode.allCases) { mode in Text(mode.title).tag(mode) }
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: classMode) { _, mode in
+                isClassRollFocused = false
+                loadClass(mode: mode)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func contrastMetrics(_ profile: ContrastProfile) -> some View {
+        MetricPill(label: "CGPA", value: profile.cgpa)
+        MetricPill(label: "Credits", value: profile.credits.formatted())
+        MetricPill(label: "Backlogs", value: profile.backlogs.formatted())
     }
 
     private func loadClass(mode: ClassResultMode) {
@@ -443,68 +442,7 @@ struct ExtendedResultView: View {
         .accessibilityElement(children: .combine)
     }
 
-    private func graceView(_ response: GraceEligibilityResponse) -> some View {
-        ScrollView {
-            LazyVStack(spacing: 14) {
-                if response.isEligible {
-                    MetricBanner(value: String(response.totalBacklogs ?? 0), label: "Potential grace-mark subjects", symbol: "rosette")
-                    Text("Your synced final-year backlogs meet the initial eligibility rules. Review the subjects below before submitting proof.")
-                        .font(.subheadline).foregroundStyle(.secondary)
-                    ForEach(response.semesters ?? []) { semester in
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Semester \(semester.semester)").font(.headline)
-                            ForEach(semester.subjects) { SubjectCompactRow(subject: $0) }
-                        }
-                        .padding(16)
-                        .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-                    }
-                    Button {
-                        isPickingProof = true
-                    } label: {
-                        Label("Choose proof to upload", systemImage: "doc.badge.arrow.up")
-                            .frame(maxWidth: .infinity, minHeight: 48)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.primary)
-                    .foregroundStyle(Color.appBackground)
-                    .disabled(isUploadingProof)
-
-                    switch store.proofUploadState {
-                    case .idle:
-                        Text("PDF, PNG or JPEG · maximum 5 MB")
-                            .font(.footnote).foregroundStyle(.secondary)
-                    case .uploading:
-                        AppLoadingView(
-                            "Uploading proof",
-                            message: "Keep this screen open until the upload finishes.",
-                            compact: true
-                        )
-                    case .succeeded(let receipt):
-                        VStack(alignment: .leading, spacing: 4) {
-                            Label("Proof uploaded for review", systemImage: "checkmark.circle.fill")
-                                .font(.subheadline.weight(.semibold)).foregroundStyle(.green)
-                            Text("Receipt: \(receipt.uploadedAt)")
-                                .font(.caption.monospaced()).foregroundStyle(.secondary)
-                        }
-                    case .failed(let message):
-                        Label(message, systemImage: "exclamationmark.circle.fill")
-                            .font(.footnote).foregroundStyle(.red)
-                    }
-                } else {
-                    ContentUnavailableView("Not eligible", systemImage: "rosette", description: Text(response.message ?? "Grace marks are not applicable for this student."))
-                }
-            }
-            .padding(16)
-        }
-    }
-
-    private var isUploadingProof: Bool {
-        if case .uploading = store.proofUploadState { return true }
-        return false
-    }
-
     private func examTitle(_ exam: ExamAttempt) -> String {
-        if exam.graceMarks { return "Grace marks" }
         if exam.rcrv { return "RCRV / revaluation" }
         return "Exam attempt"
     }

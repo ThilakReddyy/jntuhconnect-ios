@@ -371,7 +371,6 @@ private struct ExamAttemptCard: View {
             HStack(spacing: 8) {
                 Text("Exam \(exam.examCode)").font(.subheadline.weight(.semibold))
                 if exam.rcrv { StatusChip("RCRV", color: .orange) }
-                if exam.graceMarks { StatusChip("Grace", color: .purple) }
                 Spacer()
                 if let url = officialResultURL {
                     Button { presentedURL = url } label: {

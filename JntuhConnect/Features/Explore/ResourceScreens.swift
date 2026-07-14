@@ -79,6 +79,7 @@ final class ContentTreeStore {
 
 struct ContentTreeView: View {
     let kind: ResourceKind
+    @Bindable var recentStore: RecentSearchStore
     @State private var store = ContentTreeStore()
 
     var body: some View {
@@ -106,7 +107,7 @@ struct ContentTreeView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 36)
                 } else if let root = store.root {
-                    ContentNodeLevel(kind: kind, title: "Browse", node: root)
+                    ContentNodeLevel(kind: kind, title: "Browse", node: root, recentStore: recentStore)
                 } else {
                     ResourceEmptyView(symbol: kind.symbol, title: "Nothing here yet", message: "Check back later for updates.")
                 }
@@ -129,6 +130,7 @@ private struct ContentNodeLevel: View {
     let kind: ResourceKind
     let title: String
     let node: ContentNode
+    @Bindable var recentStore: RecentSearchStore
     @State private var presentedURL: URL?
 
     private let columns = [GridItem(.adaptive(minimum: 280), spacing: 12, alignment: .top)]
@@ -146,7 +148,12 @@ private struct ContentNodeLevel: View {
                             NavigationLink {
                                 ScrollView {
                                     LazyVStack(alignment: .leading, spacing: 14) {
-                                        ContentNodeLevel(kind: kind, title: entry.label, node: entry.node)
+                                        ContentNodeLevel(
+                                            kind: kind,
+                                            title: entry.label,
+                                            node: entry.node,
+                                            recentStore: recentStore
+                                        )
                                     }
                                     .frame(maxWidth: 1180)
                                     .padding(16)
@@ -172,7 +179,10 @@ private struct ContentNodeLevel: View {
                     SectionCaption(title: title, detail: "\(documents.count) document\(documents.count == 1 ? "" : "s")")
                     LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
                         ForEach(documents) { document in
-                            Button { presentedURL = document.url } label: {
+                            Button {
+                                recentStore.save(document, source: kind.shortTitle)
+                                presentedURL = document.url
+                            } label: {
                                 ContentDocumentRow(document: document)
                             }
                             .buttonStyle(.plain)
@@ -379,7 +389,7 @@ struct HelpCenterView: View {
                     symbol: "questionmark.bubble",
                     eyebrow: "HELP CENTER",
                     title: "Answers without the runaround",
-                    description: "Understand result data, queued searches, credits and grace marks before reaching out."
+                    description: "Understand result data, queued searches, and credits before reaching out."
                 )
 
                 SectionCaption(title: "Frequently asked questions", detail: "Tap a question to read the answer")
@@ -563,11 +573,8 @@ private enum ResourceContent {
     static let faqs: [FAQItem] = [
         FAQItem(question: "How do I check my complete result?", answer: "Enter your 10-character hall ticket number on Home. The Student Result screen includes All Results, Academic, Backlogs and Credits in one place; switch sections without searching again."),
         FAQItem(question: "Why does my roll number say queued?", answer: "When a result is not cached, the server starts fetching it in the background. Wait a few moments and try the same hall ticket number again."),
-        FAQItem(question: "How is CGPA calculated?", answer: "The best grade for each subject across regular, supplementary, recounting, revaluation and grace attempts is used. CGPA is credit-weighted and is shown only when there are no active backlogs."),
+        FAQItem(question: "How is CGPA calculated?", answer: "The best available grade for each subject is used. CGPA is credit-weighted and is shown only when there are no active backlogs."),
         FAQItem(question: "What does Credits Checker show?", answer: "It compares earned credits with the regulation requirement, including year-wise and semester-wise progress. It is currently intended for B.Tech students."),
-        FAQItem(question: "Can I verify marks on the JNTUH website?", answer: "Yes. All Results includes the official result link for each declared exam whenever the backend provides one."),
-        FAQItem(question: "Who can use Grace Marks?", answer: "Grace marks generally apply to eligible final-year B.Tech or B.Pharmacy students with pending backlogs after final-semester results are available. Use the Grace Marks tool for your exact status.")
+        FAQItem(question: "Can I verify marks on the JNTUH website?", answer: "Yes. All Results includes the official result link for each declared exam whenever the backend provides one.")
     ]
 }
-
-

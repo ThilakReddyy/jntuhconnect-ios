@@ -104,6 +104,27 @@ final class ResourceScreensUITests: XCTestCase {
         captureRootTabTopGlass(appearance: "dark")
     }
 
+    func testPrivacyDisclosureIsAccessibleFromSettings() {
+        launchApp()
+        selectRootTab("Settings", marker: app.staticTexts["Settings"].firstMatch)
+
+        let privacy = app.buttons["profile.privacy"]
+        XCTAssertTrue(privacy.waitForExistence(timeout: 5))
+        privacy.tap()
+
+        XCTAssertTrue(app.navigationBars["Privacy & Data"].waitForExistence(timeout: 5))
+        assertPrivacySectionIsReachable("privacy.localData")
+        assertPrivacySectionIsReachable("privacy.sentData")
+        assertPrivacySectionIsReachable("privacy.noUploads")
+        attach("privacy-and-data")
+    }
+
+    private func assertPrivacySectionIsReachable(_ identifier: String) {
+        let section = app.descendants(matching: .any)[identifier]
+        for _ in 0..<6 where !section.exists { app.swipeUp() }
+        XCTAssertTrue(section.waitForExistence(timeout: 3), "Expected to reach privacy section \(identifier)")
+    }
+
     private func captureRootTabTopGlass(appearance: String) {
         launchApp(arguments: ["-appearance", appearance])
 

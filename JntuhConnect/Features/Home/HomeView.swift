@@ -4,10 +4,12 @@ struct HomeView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.scenePhase) private var scenePhase
     @Bindable var recentStore: RecentSearchStore
     let onNavigate: (AppRoute) -> Void
     @State private var rollText = ""
     @State private var selectedFlow: ResultFlow?
+    @State private var presentedURL: URL?
     @State private var validationMessage: String?
     @State private var isTopGlassVisible = false
     @FocusState private var isRollFieldFocused: Bool
@@ -26,12 +28,22 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                if horizontalSizeClass == .regular {
+                if usesWideLayout(containerWidth: geometry.size.width) {
                     VStack(spacing: 24) {
                         hero
                         HStack(alignment: .top, spacing: 24) {
-                            quickTools.frame(maxWidth: .infinity, alignment: .top)
-                            recentSearches.frame(width: 400, alignment: .top)
+                            VStack(spacing: 28) {
+                                if !recentStore.documents.isEmpty {
+                                    quickSearches
+                                }
+                                quickTools
+                            }
+                            .frame(maxWidth: .infinity, alignment: .top)
+
+                            VStack(spacing: 28) {
+                                recentSearches
+                            }
+                            .frame(width: 400, alignment: .top)
                         }
                         .padding(.horizontal, 24)
                         .padding(.bottom, 80)
@@ -42,6 +54,9 @@ struct HomeView: View {
                     LazyVStack(spacing: 0) {
                         hero
                         VStack(spacing: 28) {
+                            if !recentStore.documents.isEmpty {
+                                quickSearches
+                            }
                             quickTools
                             recentSearches
                         }
@@ -88,6 +103,17 @@ struct HomeView: View {
                 }
             }
         }
+        .sheet(item: $presentedURL) { url in
+            InAppBrowser(url: url).ignoresSafeArea()
+        }
+        .onAppear {
+            recentStore.removeExpiredDocuments()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                recentStore.removeExpiredDocuments()
+            }
+        }
         .alert("Check hall ticket number", isPresented: Binding(
             get: { validationMessage != nil },
             set: { if !$0 { validationMessage = nil } }
@@ -98,6 +124,12 @@ struct HomeView: View {
         }
         .navigationTitle("Home")
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private func usesWideLayout(containerWidth: CGFloat) -> Bool {
+        horizontalSizeClass == .regular
+            && !dynamicTypeSize.isAccessibilitySize
+            && containerWidth >= 900
     }
 
     @ViewBuilder
@@ -260,14 +292,18 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 14) {
             sectionHeading(
                 title: "Quick tools",
-                subtitle: "Common academic checks"
+                subtitle: "Results and academic resources"
             )
 
             LazyVGrid(columns: toolColumns, spacing: 12) {
                 ForEach(QuickToolDestination.allCases) { tool in
                     QuickToolCard(tool: tool) {
                         isRollFieldFocused = false
-                        selectedFlow = tool.flow
+                        if let flow = tool.flow {
+                            selectedFlow = flow
+                        } else if let route = tool.route {
+                            onNavigate(route)
+                        }
                     }
                 }
             }
@@ -305,6 +341,41 @@ struct HomeView: View {
                         }
                         .buttonStyle(.plain)
                     }
+                }
+            }
+        }
+    }
+
+    private var quickSearches: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .lastTextBaseline) {
+                sectionHeading(
+                    title: "Quick searches",
+                    subtitle: "Documents opened in the last 24 hours"
+                )
+
+                Spacer(minLength: 12)
+
+                Button("Clear", role: .destructive) {
+                    recentStore.clearDocuments()
+                }
+                .font(.subheadline.weight(.medium))
+            }
+
+            VStack(spacing: 10) {
+                ForEach(recentStore.documents) { document in
+                    Button {
+                        isRollFieldFocused = false
+                        recentStore.save(
+                            ContentDocument(title: document.title, url: document.url),
+                            source: document.source
+                        )
+                        presentedURL = document.url
+                    } label: {
+                        RecentDocumentRow(document: document)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Reopens this document in a secure browser")
                 }
             }
         }
@@ -366,7 +437,7 @@ private struct QuickToolCard: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityIdentifier("home.quick.\(tool.flow.rawValue)")
+        .accessibilityIdentifier(tool.accessibilityIdentifier)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isButton)
     }
@@ -438,53 +509,107 @@ private struct RecentStudentRow: View {
     }
 }
 
+private struct RecentDocumentRow: View {
+    let document: RecentDocument
+
+    var body: some View {
+        HStack(spacing: 14) {
+            Image(systemName: document.source == "Calendars" ? "calendar" : "book.closed")
+                .font(.headline.weight(.semibold))
+                .frame(width: 44, height: 44)
+                .background(Color.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 13, style: .continuous))
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(document.title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+
+                Text(document.url.absoluteString)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Image(systemName: "arrow.up.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
+        }
+        .padding(14)
+        .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(Color.appOutline.opacity(0.38), lineWidth: 0.5)
+        }
+        .accessibilityElement(children: .combine)
+    }
+}
+
 private enum QuickToolDestination: String, CaseIterable, Identifiable {
-    case contrast, classResult, graceMarks, credits
+    case credits, classResult, calendars, syllabus
 
     var id: Self { self }
 
     var title: String {
         switch self {
-        case .contrast: "Result contrast"
-        case .classResult: "Class result"
-        case .graceMarks: "Grace marks"
         case .credits: "Credits"
+        case .syllabus: "Syllabus"
+        case .calendars: "Calendars"
+        case .classResult: "Class result"
         }
     }
 
     var subtitle: String {
         switch self {
-        case .contrast: "Compare students"
-        case .classResult: "Rank a section"
-        case .graceMarks: "Check eligibility"
         case .credits: "Track progress"
+        case .classResult: "View class rankings"
+        case .calendars: "View academic dates"
+        case .syllabus: "Browse course subjects"
         }
     }
 
     var icon: String {
         switch self {
-        case .contrast: "arrow.left.arrow.right"
-        case .classResult: "person.3"
-        case .graceMarks: "rosette"
         case .credits: "chart.bar"
+        case .syllabus: "book.closed"
+        case .calendars: "calendar"
+        case .classResult: "person.3"
         }
     }
 
-    var flow: ResultFlow {
+    var flow: ResultFlow? {
         switch self {
-        case .contrast: .contrast
-        case .classResult: .classResults
-        case .graceMarks: .graceMarks
         case .credits: .credits
+        case .syllabus, .calendars: nil
+        case .classResult: .classResults
         }
+    }
+
+    var route: AppRoute? {
+        switch self {
+        case .syllabus: .resource(.syllabus)
+        case .calendars: .resource(.calendars)
+        case .credits, .classResult: nil
+        }
+    }
+
+    var accessibilityIdentifier: String {
+        if let flow {
+            return "home.quick.\(flow.rawValue)"
+        }
+        return "home.quick.\(rawValue)"
     }
 
     var color: Color {
         switch self {
-        case .contrast: .purple
-        case .classResult: .blue
-        case .graceMarks: .green
         case .credits: .orange
+        case .syllabus: .purple
+        case .calendars: .green
+        case .classResult: .blue
         }
     }
 }

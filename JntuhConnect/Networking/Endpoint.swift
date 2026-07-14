@@ -7,8 +7,6 @@ enum Endpoint: Sendable {
     case credits(rollNumber: String)
     case resultContrast(first: String, second: String)
     case classResults(rollNumber: String, type: String)
-    case graceEligibility(rollNumber: String)
-    case graceProof(rollNumber: String)
     case notifications(page: Int, category: String)
     case calendars
     case syllabus
@@ -21,8 +19,6 @@ enum Endpoint: Sendable {
         case .credits: "getCreditsChecker"
         case .resultContrast: "getResultContrast"
         case .classResults: "getClassResults"
-        case .graceEligibility: "grace-marks/eligibility"
-        case .graceProof: "grace-marks/proof"
         case .notifications: "notifications"
         case .calendars: "calendars"
         case .syllabus: "syllabus"
@@ -41,8 +37,6 @@ enum Endpoint: Sendable {
             ]
         case .classResults(let rollNumber, let type):
             [URLQueryItem(name: "rollNumber", value: rollNumber), URLQueryItem(name: "type", value: type)]
-        case .graceEligibility(let rollNumber), .graceProof(let rollNumber):
-            [URLQueryItem(name: "rollNumber", value: rollNumber)]
         case .notifications(let page, let category):
             [URLQueryItem(name: "page", value: String(page)), URLQueryItem(name: "category", value: category)]
         case .calendars, .syllabus:

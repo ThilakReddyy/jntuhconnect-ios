@@ -6,6 +6,7 @@ struct ProfileView: View {
     @Bindable var recentStore: RecentSearchStore
     let onNavigate: (AppRoute) -> Void
     @State private var isTopGlassVisible = false
+    @State private var isConfirmingLocalDataClear = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -24,7 +25,9 @@ struct ProfileView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous)).accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 3) {
                             Text("JNTUH Connect").font(.title3.bold())
-                            Text("Built for JNTUH students").font(.subheadline).foregroundStyle(.secondary)
+                            Text("Results, resources, and academic tools")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                         }
                     }.padding(.vertical, 6)
                 }
@@ -35,8 +38,15 @@ struct ProfileView: View {
                 }
                 Section("Data") {
                     LabeledContent("Saved students", value: String(recentStore.students.count))
-                    Button("Clear recent searches", role: .destructive) { recentStore.clear() }
-                        .disabled(recentStore.students.isEmpty)
+                    LabeledContent("Document shortcuts", value: String(recentStore.documents.count))
+                    Button { onNavigate(.privacy) } label: {
+                        Label("Privacy & Data", systemImage: "hand.raised")
+                    }
+                    .accessibilityIdentifier("profile.privacy")
+                    Button("Clear saved data", role: .destructive) {
+                        isConfirmingLocalDataClear = true
+                    }
+                    .disabled(recentStore.students.isEmpty && recentStore.documents.isEmpty)
                 }
                 Section("Support") {
                     Button { onNavigate(.channels) } label: {
@@ -47,13 +57,22 @@ struct ProfileView: View {
                         Label("Help Center", systemImage: "questionmark.circle")
                     }
                     .accessibilityIdentifier("profile.help")
+                    Button {
+                        presentedURL = AppInformation.supportURL
+                    } label: {
+                        Label("Report a Problem", systemImage: "exclamationmark.bubble")
+                    }
                 }
-                Section("About") {
-                    Button { presentedURL = URL(string: "https://jntuhconnect.dhethi.com")! } label: {
+                Section {
+                    Button { presentedURL = AppInformation.websiteURL } label: {
                         Label("JNTUH Results website", systemImage: "safari")
                     }
-                    ShareLink(item: URL(string: "https://jntuhconnect.dhethi.com")!) { Label("Share JNTUH Connect", systemImage: "square.and.arrow.up") }
-                    LabeledContent("Version", value: "1.0.0")
+                    ShareLink(item: AppInformation.websiteURL) {
+                        Label("Share JNTUH Connect", systemImage: "square.and.arrow.up")
+                    }
+                    LabeledContent("Version", value: AppInformation.versionDescription)
+                } header: {
+                    Text("About")
                 }
             }
             .onScrollGeometryChange(for: Bool.self) { scrollGeometry in
@@ -74,5 +93,18 @@ struct ProfileView: View {
         .toolbar(.hidden, for: .navigationBar)
         .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
         .sheet(item: $presentedURL) { InAppBrowser(url: $0).ignoresSafeArea() }
+        .confirmationDialog(
+            "Clear saved data?",
+            isPresented: $isConfirmingLocalDataClear,
+            titleVisibility: .visible
+        ) {
+            Button("Clear Saved Data", role: .destructive) {
+                recentStore.clear()
+                recentStore.clearDocuments()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This removes recent student summaries and document shortcuts stored on this device. Your appearance setting is kept.")
+        }
     }
 }

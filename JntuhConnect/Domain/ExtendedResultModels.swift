@@ -14,9 +14,8 @@ struct AllResultSemester: Decodable, Identifiable, Sendable {
 struct ExamAttempt: Decodable, Identifiable, Sendable {
     let examCode: String
     let rcrv: Bool
-    let graceMarks: Bool
     let subjects: [Subject]
-    var id: String { examCode + String(rcrv) + String(graceMarks) }
+    var id: String { examCode + String(rcrv) }
 }
 
 struct BacklogResponse: Decodable, Sendable {
@@ -105,33 +104,6 @@ struct ClassBacklogStudent: Decodable, Identifiable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         details = try container.decode(StudentDetails.self, forKey: .details)
         results = try? container.decode(BacklogSummary.self, forKey: .results)
-    }
-}
-
-struct GraceEligibilityResponse: Decodable, Sendable {
-    let status: String?
-    let message: String?
-    let semesters: [Semester]?
-    let totalBacklogs: Int?
-
-    var isEligible: Bool { semesters != nil }
-}
-
-struct GraceProofUploadResponse: Decodable, Sendable {
-    let status: String
-    let rollNumber: String
-    let downloadUrl: String
-    let uploadedAt: String
-}
-
-enum GraceProofFile {
-    static let maximumSize = 5 * 1024 * 1024
-    static let supportedMIMETypes = ["application/pdf", "image/png", "image/jpeg", "image/jpg"]
-
-    static func validate(size: Int, mimeType: String) throws {
-        guard size > 0, size <= maximumSize, supportedMIMETypes.contains(mimeType) else {
-            throw APIError.invalidRequest
-        }
     }
 }
 

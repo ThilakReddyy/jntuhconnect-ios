@@ -16,10 +16,4 @@ struct ResultFlowTests {
             try ResultFlow.contrast.makeRequest(primary: "18E51A0479", secondary: "bad")
         }
     }
-
-    @Test func graceMarksBlocksPausedBatchesFrom2022Onward() {
-        #expect(throws: ResultFlowValidationError.self) {
-            try ResultFlow.graceMarks.makeRequest(primary: "22E51A0479", secondary: "")
-        }
-    }
 }

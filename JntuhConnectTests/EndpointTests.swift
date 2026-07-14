@@ -34,6 +34,5 @@ struct EndpointTests {
         #expect(contrast.query?.contains("rollNumber1=18E51A0479") == true)
         #expect(contrast.query?.contains("rollNumber2=18E51A0478") == true)
         #expect(try Endpoint.classResults(rollNumber: "18E51A0479", type: "academicresult").url(relativeTo: base).absoluteString.contains("getClassResults"))
-        #expect(try Endpoint.graceEligibility(rollNumber: "18E51A0479").url(relativeTo: base).absoluteString.contains("grace-marks/eligibility"))
     }
 }

@@ -16,8 +16,7 @@ struct ExploreView: View {
         ]),
         ("Analysis", [
             Tool("Result contrast", "Compare two students", "arrow.left.arrow.right", .secondary, flow: .contrast),
-            Tool("Class result", "Rank an entire class", "person.3", .secondary, flow: .classResults),
-            Tool("Grace marks", "Eligibility and proof", "rosette", .appGold, flow: .graceMarks)
+            Tool("Class result", "Rank an entire class", "person.3", .secondary, flow: .classResults)
         ]),
         ("Resources", [
             Tool("Updates", "Latest JNTUH notifications", "bell", .secondary, destination: .updates),
@@ -40,7 +39,7 @@ struct ExploreView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             Text(section).font(.title3.bold()).accessibilityAddTraits(.isHeader)
                             LazyVGrid(
-                                columns: horizontalSizeClass == .regular
+                                columns: horizontalSizeClass == .regular && geometry.size.width >= 700
                                     ? [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
                                     : [GridItem(.flexible())],
                                 spacing: 12

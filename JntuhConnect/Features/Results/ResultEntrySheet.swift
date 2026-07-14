@@ -20,11 +20,7 @@ struct ResultEntrySheet: View {
                 VStack(alignment: .leading, spacing: dynamicTypeSize.isAccessibilitySize ? 16 : 24) {
                     header
                     if flow == .classResults {
-                        Picker("Result type", selection: $classMode) {
-                            ForEach(ClassResultMode.allCases) { mode in Text(mode.title).tag(mode) }
-                        }
-                        .pickerStyle(.segmented)
-                        .onChange(of: classMode) { focusedField = nil }
+                        classModePicker
                     }
                     fields
 
@@ -66,6 +62,23 @@ struct ResultEntrySheet: View {
         .presentationDetents(presentationDetents)
         .presentationDragIndicator(.visible)
         .onAppear { focusedField = .primary }
+    }
+
+    @ViewBuilder
+    private var classModePicker: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            Picker("Result type", selection: $classMode) {
+                ForEach(ClassResultMode.allCases) { mode in Text(mode.title).tag(mode) }
+            }
+            .pickerStyle(.menu)
+            .onChange(of: classMode) { focusedField = nil }
+        } else {
+            Picker("Result type", selection: $classMode) {
+                ForEach(ClassResultMode.allCases) { mode in Text(mode.title).tag(mode) }
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: classMode) { focusedField = nil }
+        }
     }
 
     private var header: some View {
@@ -140,7 +153,6 @@ struct ResultEntrySheet: View {
         switch flow {
         case .contrast: "Compare results"
         case .classResults: "Load class"
-        case .graceMarks: "Check eligibility"
         default: "View report"
         }
     }

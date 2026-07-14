@@ -12,6 +12,7 @@ struct StudentResultView: View {
     @State private var backlogStore = ExtendedResultStore()
     @State private var creditsStore = ExtendedResultStore()
     @State private var loadedSections: Set<StudentResultSection> = []
+    @State private var containerWidth: CGFloat = 0
 
     init(
         rollNumber: RollNumber,
@@ -36,6 +37,11 @@ struct StudentResultView: View {
         .navigationTitle("Student Result")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarVisibility(.hidden, for: .tabBar)
+        .onGeometryChange(for: CGFloat.self) { geometry in
+            geometry.size.width
+        } action: { width in
+            containerWidth = width
+        }
         .task(id: rollNumber.rawValue) {
             await academicStore.load(rollNumber: rollNumber)
             if availableDetails == nil {
@@ -116,7 +122,9 @@ struct StudentResultView: View {
 
     @ViewBuilder
     private func resultShell(details: StudentDetails, academic: AcademicResult?) -> some View {
-        if horizontalSizeClass == .regular && !dynamicTypeSize.isAccessibilitySize {
+        if horizontalSizeClass == .regular
+            && !dynamicTypeSize.isAccessibilitySize
+            && containerWidth >= 760 {
             regularWidthShell(details: details, academic: academic)
         } else {
             compactShell(details: details, academic: academic)

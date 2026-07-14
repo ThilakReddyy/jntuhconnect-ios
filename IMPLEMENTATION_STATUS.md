@@ -5,8 +5,7 @@
 - Native SwiftUI lifecycle, iOS 18+ `TabView`, and root-owned `NavigationStack`
 - Obsidian Academic Home with direct primary hall-ticket search and minimized recent students
 - Reusable native result-entry sheet with trim/uppercase normalization, 10-character validation, keyboard submission, native detents, and one/two-roll forms
-- Academic result, all-attempt results, backlog report, credits checker, result contrast, class academic ranking, class backlog ranking, and grace-marks eligibility
-- Grace-marks proof picker/upload for PDF, PNG, and JPEG files up to 5 MB
+- Academic result, all-attempt results, backlog report, credits checker, result contrast, class academic ranking, and class backlog ranking
 - Authenticated API integration, including HTTP 202 queued, HTTP 429 retry guidance, FastAPI/business errors, stale-response protection, offline, timeout, and cancellation states
 - Real result screens for semesters, attempts, subjects, backlogs, credits by year, two-student comparison, and class summaries/rankings
 - Root-owned result navigation so pushed report screens hide the persistent tab bar

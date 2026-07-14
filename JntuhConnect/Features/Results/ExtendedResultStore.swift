@@ -8,7 +8,6 @@ enum ExtendedResultPayload: Sendable {
     case contrast(ResultContrastResponse)
     case classResults([ClassResultStudent])
     case classBacklogs([ClassBacklogStudent])
-    case grace(GraceEligibilityResponse)
 }
 
 enum ExtendedResultState: Sendable {
@@ -20,17 +19,9 @@ enum ExtendedResultState: Sendable {
     case failed(String)
 }
 
-enum ProofUploadState: Sendable {
-    case idle
-    case uploading
-    case succeeded(GraceProofUploadResponse)
-    case failed(String)
-}
-
 @MainActor @Observable
 final class ExtendedResultStore {
     var state: ExtendedResultState = .idle
-    var proofUploadState: ProofUploadState = .idle
     private let client: APIClient
     private var requestID: UUID?
 
@@ -76,8 +67,6 @@ final class ExtendedResultStore {
                 } else {
                     payload = .classResults(try await client.fetch([ClassResultStudent].self, endpoint: .classResults(rollNumber: request.primary.rawValue, type: ClassResultMode.academic.rawValue)))
                 }
-            case .graceMarks:
-                payload = .grace(try await client.fetch(GraceEligibilityResponse.self, endpoint: .graceEligibility(rollNumber: request.primary.rawValue)))
             case .academic:
                 throw APIError.invalidRequest
             }
@@ -98,33 +87,4 @@ final class ExtendedResultStore {
         }
     }
 
-    func uploadProof(from url: URL, rollNumber: RollNumber) async {
-        proofUploadState = .uploading
-        let hasAccess = url.startAccessingSecurityScopedResource()
-        defer { if hasAccess { url.stopAccessingSecurityScopedResource() } }
-
-        do {
-            let values = try url.resourceValues(forKeys: [.fileSizeKey])
-            let size = values.fileSize ?? 0
-            let ext = url.pathExtension.lowercased()
-            let mimeType: String
-            switch ext {
-            case "pdf": mimeType = "application/pdf"
-            case "png": mimeType = "image/png"
-            case "jpg", "jpeg": mimeType = "image/jpeg"
-            default: throw APIError.invalidRequest
-            }
-            try GraceProofFile.validate(size: size, mimeType: mimeType)
-            let data = try Data(contentsOf: url, options: .mappedIfSafe)
-            let response = try await client.uploadGraceProof(
-                data: data,
-                filename: url.lastPathComponent,
-                mimeType: mimeType,
-                rollNumber: rollNumber.rawValue
-            )
-            proofUploadState = .succeeded(response)
-        } catch {
-            proofUploadState = .failed((error as? LocalizedError)?.errorDescription ?? "Unable to upload this proof.")
-        }
-    }
 }

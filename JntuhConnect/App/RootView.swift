@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum AppTab: Hashable { case home, explore, profile }
+enum AppTab: String, Hashable { case home, explore, profile }
 
 enum AppRoute: Hashable {
     case student(RollNumber, StudentResultSection)
@@ -8,10 +8,11 @@ enum AppRoute: Hashable {
     case resource(ResourceKind)
     case channels
     case helpCenter
+    case privacy
 }
 
 struct RootView: View {
-    @State private var selectedTab: AppTab = .home
+    @SceneStorage("selectedAppTab") private var selectedTab: AppTab = .home
     @State private var recentStore = RecentSearchStore()
     @State private var path: [AppRoute] = []
 
@@ -28,6 +29,7 @@ struct RootView: View {
                     ProfileView(recentStore: recentStore, onNavigate: navigate)
                 }
             }
+            .tabViewStyle(.sidebarAdaptable)
             .tint(.primary)
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
@@ -36,11 +38,13 @@ struct RootView: View {
                 case .extended(let request):
                     ExtendedResultView(request: request)
                 case .resource(let kind):
-                    ContentTreeView(kind: kind)
+                    ContentTreeView(kind: kind, recentStore: recentStore)
                 case .channels:
                     ChannelsView()
                 case .helpCenter:
                     HelpCenterView()
+                case .privacy:
+                    PrivacyPolicyView()
                 }
             }
         }

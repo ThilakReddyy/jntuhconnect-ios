@@ -30,11 +30,10 @@
 |---|---|
 | 🔍 **Result Search** | Search JNTUH results with a validated hall-ticket number and quickly reopen recent students |
 | 📊 **Student Results** | View academic summaries, semester performance, subject marks, grades, SGPA, and CGPA |
-| 📚 **All Results** | Browse every published regular, supplementary, RCRV, and grace-marks attempt |
+| 📚 **All Results** | Browse every published regular, supplementary, and RCRV attempt |
 | 🎓 **Credits Tracker** | Compare obtained credits with regulation requirements and year-wise progress |
 | 🏆 **Class Results** | Rank cleared students by CGPA while separating backlogged and unsynced records |
 | ⚖️ **Result Contrast** | Compare the academic performance of two students side by side |
-| 📝 **Grace Marks** | Check initial eligibility and upload PDF or image proof securely |
 | 📢 **Latest Updates** | Read live JNTUH notifications with All and Results filters |
 | 🗓️ **Academic Calendars** | Browse live, drill-down academic calendar trees from the backend |
 | 📖 **Syllabus** | Navigate syllabus documents by degree, regulation, branch, and subject |
@@ -78,7 +77,7 @@ JntuhConnect/
 │
 ├── Features/                    # User-facing SwiftUI features
 │   ├── Home/                    # Hall-ticket search and recent students
-│   ├── Results/                 # Results, credits, contrast, class, and grace marks
+│   ├── Results/                 # Results, credits, contrast, and class reports
 │   ├── Explore/                 # Tools, calendars, syllabus, channels, and help
 │   ├── Updates/                 # Live JNTUH notifications
 │   └── Profile/                 # Appearance, local data, support, and about settings
@@ -99,7 +98,7 @@ SwiftUI View → @Observable Store → APIClient actor → Endpoint/APIRequestFa
                                   Decodable domain models
 ```
 
-`RootView` owns the shared `NavigationStack`, three root tabs, recent-search store, and pushed routes. Feature stores own loading, pending, unavailable, success, and error states. The shared `APIClient` actor owns its ephemeral URLSession and JSON decoder.
+`RootView` owns the shared `NavigationStack`, three adaptive root tabs, recent-search store, and pushed routes. Tabs stay at the bottom on iPhone and use Apple’s adaptable top-bar/sidebar treatment on iPad. Feature stores own loading, pending, unavailable, success, and error states. The shared `APIClient` actor owns its ephemeral URLSession and JSON decoder.
 
 ---
 
@@ -121,8 +120,6 @@ https://jntuhresults.dhethi.com/api/
 | `GET /getCreditsChecker?rollNumber=` | Fetch obtained and required credits |
 | `GET /getResultContrast?rollNumber1=&rollNumber2=` | Compare two students |
 | `GET /getClassResults?rollNumber=&type=` | Fetch academic or backlog class data |
-| `GET /grace-marks/eligibility?rollNumber=` | Check initial grace-marks eligibility |
-| `POST /grace-marks/proof?rollNumber=` | Upload grace-marks supporting proof |
 | `GET /notifications?page=&category=` | Fetch paginated JNTUH updates |
 | `GET /calendars` | Fetch the academic calendar tree |
 | `GET /syllabus` | Fetch the syllabus tree |
@@ -191,7 +188,7 @@ The app is organized into **three tabs**, with result details and resources push
 | Tab | Description |
 |---|---|
 | 🏠 **Home** | Search a hall-ticket number, open unified student results, and revisit recent students |
-| 🧭 **Explore** | Access result tools, class analysis, grace marks, updates, calendars, syllabus, channels, and help |
+| 🧭 **Explore** | Access result tools, class analysis, updates, calendars, syllabus, channels, and help |
 | ⚙️ **Settings** | Change appearance, clear local recent searches, open support, and view app information |
 
 ---
@@ -255,9 +252,11 @@ The live integration test is opt-in through `RUN_LIVE_API_TESTS=1`. Several UI t
 - Academic result responses are kept in memory and are not persisted by the app.
 - Only up to eight recent student summaries—name, hall-ticket number, and branch—are saved in UserDefaults.
 - Recent searches can be removed at any time from Settings.
-- Grace-marks proof accepts PDF, PNG, and JPEG files up to 5 MB and uploads only after explicit user action.
-- The privacy manifest declares UserDefaults access, and app tracking is disabled.
+- The app contains no document, photo, or video upload feature.
+- The privacy manifest declares UserDefaults access and hall-ticket numbers used for result requests; app tracking is disabled.
 - Document links are restricted to HTTP/HTTPS and opened with SFSafariViewController.
+
+See the user-facing [privacy policy](PRIVACY.md) and the [App Store compliance checklist](APP_STORE_COMPLIANCE.md) before preparing a release.
 
 The mobile `X-Api-Key` is a public gateway value, not a durable security boundary; any static key distributed in an app can be extracted. Never add admin keys, database credentials, cloud credentials, signing material, or other privileged backend secrets to this project.
 
