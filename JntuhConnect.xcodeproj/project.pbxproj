@@ -84,10 +84,10 @@
 		2BE3DF3CE58D5C3E828D51A7 /* InAppBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppBrowser.swift; sourceTree = "<group>"; };
 		2DAB2DBE4E91AD08C1B15CA4 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		30EA1945588A5D31C42D5C0F /* AppLinkPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinkPolicy.swift; sourceTree = "<group>"; };
-		38DDA4843959948FAA6CC14A /* JntuhConnect.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JntuhConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		38DDA4843959948FAA6CC14A /* JntuhConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JntuhConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F9EB629F2335E741CA4BB3D /* HTTPResponseInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseInterpreter.swift; sourceTree = "<group>"; };
 		4778D5E2EB5147ECA0CA2B2F /* AppInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformation.swift; sourceTree = "<group>"; };
-		4A952C67015F68E319CC13EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		4A952C67015F68E319CC13EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		4EB99AAF043ED5868890529B /* StudentResultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentResultStore.swift; sourceTree = "<group>"; };
 		4FA7777DC133EDB2C9846735 /* NotificationLinkSafetyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationLinkSafetyTests.swift; sourceTree = "<group>"; };
 		54565B63342C114B282AB623 /* StudentResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentResultView.swift; sourceTree = "<group>"; };
@@ -522,16 +522,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CJYZD3579U;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = JntuhConnect/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "JNTUH Connect";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -577,16 +584,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CJYZD3579U;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = JntuhConnect/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "JNTUH Connect";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhethi.jntuhconnect.ios;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

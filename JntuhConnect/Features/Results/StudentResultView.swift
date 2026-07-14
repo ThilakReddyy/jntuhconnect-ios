@@ -131,23 +131,55 @@ struct StudentResultView: View {
         }
     }
 
+    @ViewBuilder
     private func regularWidthShell(details: StudentDetails, academic: AcademicResult?) -> some View {
-        ScrollView {
-            HStack(alignment: .top, spacing: 20) {
-                VStack(spacing: 8) {
-                    StudentResultHero(details: details, result: academic)
-                    StudentResultSectionPicker(selection: $selectedSection)
+        if containerWidth >= 1100 {
+            landscapeResultShell(details: details, academic: academic)
+        } else {
+            portraitResultShell(details: details, academic: academic)
+        }
+    }
+
+    private func landscapeResultShell(details: StudentDetails, academic: AcademicResult?) -> some View {
+        HStack(alignment: .top, spacing: 24) {
+            VStack(spacing: 12) {
+                StudentResultHero(details: details, result: academic)
+                StudentResultSectionSidebar(selection: $selectedSection)
+            }
+            .frame(width: 360)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 14) {
+                    sectionHeading
+                    sectionContent(academic: academic)
                 }
-                .frame(width: 340)
+                .frame(maxWidth: 820, alignment: .leading)
+                .padding(.bottom, 40)
+                .frame(maxWidth: .infinity, alignment: .top)
+            }
+        }
+        .frame(maxWidth: 1200, maxHeight: .infinity, alignment: .top)
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+
+    private func portraitResultShell(details: StudentDetails, academic: AcademicResult?) -> some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 18) {
+                StudentResultHero(details: details, result: academic, layout: .wide)
+
+                StudentResultSectionPicker(selection: $selectedSection)
 
                 VStack(alignment: .leading, spacing: 14) {
                     sectionHeading
                     sectionContent(academic: academic)
                 }
-                .frame(maxWidth: 760, alignment: .leading)
             }
-            .frame(maxWidth: 1140, alignment: .top)
-            .padding(20)
+            .frame(maxWidth: 1000, alignment: .leading)
+            .padding(.horizontal, 24)
+            .padding(.top, 16)
+            .padding(.bottom, 40)
             .frame(maxWidth: .infinity)
         }
     }

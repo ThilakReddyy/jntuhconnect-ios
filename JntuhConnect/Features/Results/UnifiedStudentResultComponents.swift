@@ -26,6 +26,24 @@ enum StudentResultSection: String, CaseIterable, Identifiable, Hashable, Sendabl
         }
     }
 
+    var systemImage: String {
+        switch self {
+        case .allResults: "doc.text.magnifyingglass"
+        case .academic: "graduationcap"
+        case .backlogs: "exclamationmark.circle"
+        case .credits: "chart.bar"
+        }
+    }
+
+    var navigationSubtitle: String {
+        switch self {
+        case .allResults: "Every published attempt"
+        case .academic: "Consolidated performance"
+        case .backlogs: "Subjects still to clear"
+        case .credits: "Requirement progress"
+        }
+    }
+
     init?(flow: ResultFlow) {
         switch flow {
         case .academic: self = .academic
@@ -38,8 +56,14 @@ enum StudentResultSection: String, CaseIterable, Identifiable, Hashable, Sendabl
 }
 
 struct StudentResultHero: View {
+    enum Layout {
+        case compact
+        case wide
+    }
+
     let details: StudentDetails
     let result: AcademicResult?
+    let layout: Layout
     @State private var showsAccessibleDetails = false
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.colorScheme) private var colorScheme
@@ -52,6 +76,12 @@ struct StudentResultHero: View {
     private var summaryText: String {
         guard let result else { return "Academic summary unavailable. Other result sections remain accessible." }
         return "CGPA \(cgpaText) · \(result.credits.compactNumber) credits · \(result.backlogs) backlog\(result.backlogs == 1 ? "" : "s") · \(result.semesters.count) semesters"
+    }
+
+    init(details: StudentDetails, result: AcademicResult?, layout: Layout = .compact) {
+        self.details = details
+        self.result = result
+        self.layout = layout
     }
 
     var body: some View {
@@ -80,6 +110,21 @@ struct StudentResultHero: View {
                 }
                 .tint(.white)
                 .accessibilityHint(showsAccessibleDetails ? "Collapses student details" : "Shows branch, college and academic summary")
+            } else if layout == .wide {
+                HStack(alignment: .center, spacing: 24) {
+                    identity
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .layoutPriority(1)
+
+                    cgpaRing
+
+                    HStack(spacing: 10) {
+                        HeroMetric(value: result?.credits.compactNumber ?? "—", label: "Credits")
+                        HeroMetric(value: result.map { String($0.backlogs) } ?? "—", label: "Backlogs")
+                        HeroMetric(value: result.map { String($0.semesters.count) } ?? "—", label: "Semesters")
+                    }
+                    .frame(width: 330)
+                }
             } else {
                 HStack(alignment: .center, spacing: 16) {
                     identity.frame(maxWidth: .infinity, alignment: .leading)
@@ -135,6 +180,85 @@ struct StudentResultHero: View {
         .frame(width: 96, height: 96)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("CGPA \(cgpaText)")
+    }
+}
+
+struct StudentResultSectionSidebar: View {
+    @Binding var selection: StudentResultSection
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Result sections")
+                .font(.headline)
+                .padding(.horizontal, 8)
+                .padding(.bottom, 2)
+                .accessibilityAddTraits(.isHeader)
+
+            ForEach(StudentResultSection.allCases) { section in
+                sectionButton(section)
+            }
+        }
+        .padding(12)
+        .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(Color.appOutline.opacity(0.42), lineWidth: 0.5)
+        }
+    }
+
+    private func sectionButton(_ section: StudentResultSection) -> some View {
+        let isSelected = selection == section
+
+        return Button {
+            selection = section
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: section.systemImage)
+                    .font(.body.weight(.semibold))
+                    .frame(width: 24)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(section.title)
+                        .font(.subheadline.weight(.semibold))
+                    Text(section.navigationSubtitle)
+                        .font(.caption)
+                        .foregroundStyle(isSelected ? selectedSecondaryColor : Color.secondary)
+                        .lineLimit(1)
+                }
+
+                Spacer(minLength: 8)
+
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.caption.bold())
+                        .accessibilityHidden(true)
+                }
+            }
+            .foregroundStyle(isSelected ? selectedPrimaryColor : Color.primary)
+            .padding(.horizontal, 12)
+            .frame(maxWidth: .infinity, minHeight: 58, alignment: .leading)
+            .background(isSelected ? selectedBackgroundColor : Color.clear, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .animation(reduceMotion ? nil : .snappy(duration: 0.22), value: isSelected)
+        .accessibilityIdentifier("student.section.\(section.rawValue).sidebar")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+
+    private var selectedBackgroundColor: Color {
+        colorScheme == .dark ? Color.primary.opacity(0.14) : Color.primary
+    }
+
+    private var selectedPrimaryColor: Color {
+        colorScheme == .dark ? .primary : .white
+    }
+
+    private var selectedSecondaryColor: Color {
+        colorScheme == .dark ? Color.primary.opacity(0.68) : Color.white.opacity(0.72)
     }
 }
 
@@ -212,9 +336,10 @@ struct StudentResultSectionPicker: View {
     }
 
     private func sectionButton(_ section: StudentResultSection) -> some View {
-        Button {
-            if reduceMotion { selection = section }
-            else { withAnimation(.snappy(duration: 0.22)) { selection = section } }
+        let isSelected = selection == section
+
+        return Button {
+            selection = section
         } label: {
             Text(section.title)
                 .font(.caption.weight(.semibold))
@@ -225,16 +350,17 @@ struct StudentResultSectionPicker: View {
                     maxWidth: dynamicTypeSize.isAccessibilitySize ? nil : .infinity,
                     minHeight: dynamicTypeSize.isAccessibilitySize ? 56 : 44
                 )
-                .foregroundStyle(selection == section ? (colorScheme == .dark ? Color.primary : Color.white) : .secondary)
+                .foregroundStyle(isSelected ? (colorScheme == .dark ? Color.primary : Color.white) : .secondary)
                 .background(
-                    selection == section
+                    isSelected
                         ? (colorScheme == .dark ? Color.primary.opacity(0.14) : Color.primary)
                         : .clear,
                     in: Capsule()
                 )
         }
         .buttonStyle(.plain)
-        .accessibilityAddTraits(selection == section ? .isSelected : [])
+        .animation(reduceMotion ? nil : .snappy(duration: 0.22), value: isSelected)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

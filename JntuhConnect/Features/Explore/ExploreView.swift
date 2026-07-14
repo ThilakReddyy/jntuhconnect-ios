@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ExploreView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Bindable var recentStore: RecentSearchStore
     let onNavigate: (AppRoute) -> Void
     @State private var selectedFlow: ResultFlow?
@@ -38,12 +39,7 @@ struct ExploreView: View {
                     ForEach(sections, id: \.0) { section, tools in
                         VStack(alignment: .leading, spacing: 10) {
                             Text(section).font(.title3.bold()).accessibilityAddTraits(.isHeader)
-                            LazyVGrid(
-                                columns: horizontalSizeClass == .regular && geometry.size.width >= 700
-                                    ? [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
-                                    : [GridItem(.flexible())],
-                                spacing: 12
-                            ) {
+                            LazyVGrid(columns: columns(containerWidth: geometry.size.width), spacing: 12) {
                                 ForEach(tools) { tool in
                                     toolNavigation(tool)
                                 }
@@ -51,8 +47,8 @@ struct ExploreView: View {
                         }
                     }
                 }
-                .frame(maxWidth: 1100)
-                .padding(.horizontal, 16)
+                .frame(maxWidth: 1180)
+                .padding(.horizontal, horizontalSizeClass == .regular ? 24 : 16)
                 .padding(.top, 76)
                 .padding(.bottom, 106)
                 .frame(maxWidth: .infinity)
@@ -87,6 +83,15 @@ struct ExploreView: View {
                 }
             }
         }
+    }
+
+    private func columns(containerWidth: CGFloat) -> [GridItem] {
+        guard horizontalSizeClass == .regular, !dynamicTypeSize.isAccessibilitySize else {
+            return [GridItem(.flexible())]
+        }
+
+        let count = containerWidth >= 960 ? 3 : 2
+        return Array(repeating: GridItem(.flexible(), spacing: 12), count: count)
     }
 
     @ViewBuilder

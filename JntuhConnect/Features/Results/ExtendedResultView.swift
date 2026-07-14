@@ -105,8 +105,10 @@ struct ExtendedResultView: View {
                     .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
                 }
             }
+            .frame(maxWidth: 920)
             .padding(16)
             .padding(.bottom, 40)
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -130,7 +132,9 @@ struct ExtendedResultView: View {
                     }
                 }
             }
+            .frame(maxWidth: 920)
             .padding(16)
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -171,7 +175,9 @@ struct ExtendedResultView: View {
                     }
                 }
             }
+            .frame(maxWidth: 920)
             .padding(16)
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -220,7 +226,9 @@ struct ExtendedResultView: View {
                     .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
                 }
             }
+            .frame(maxWidth: 920)
             .padding(16)
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -372,8 +380,10 @@ struct ExtendedResultView: View {
                     }
                 }
             }
+            .frame(maxWidth: 920)
             .padding(16)
             .padding(.bottom, 28)
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -412,8 +422,10 @@ struct ExtendedResultView: View {
                     }
                 }
             }
+            .frame(maxWidth: 920)
             .padding(16)
             .padding(.bottom, 28)
+            .frame(maxWidth: .infinity)
         }
     }
 

@@ -327,8 +327,10 @@ struct ChannelsView: View {
                     .foregroundStyle(.tertiary)
                     .padding(.horizontal, 4)
             }
+            .frame(maxWidth: 820)
             .padding(16)
             .padding(.bottom, 28)
+            .frame(maxWidth: .infinity)
         }
         .background(Color.appBackground)
         .navigationTitle("Channels")
@@ -419,8 +421,10 @@ struct HelpCenterView: View {
                 .background(Color.appSurface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay { RoundedRectangle(cornerRadius: 20, style: .continuous).stroke(Color.appOutline.opacity(0.42), lineWidth: 0.5) }
             }
+            .frame(maxWidth: 820)
             .padding(16)
             .padding(.bottom, 28)
+            .frame(maxWidth: .infinity)
         }
         .background(Color.appBackground)
         .navigationTitle("Help Center")

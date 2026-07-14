@@ -14,50 +14,43 @@ struct HomeView: View {
     @State private var isTopGlassVisible = false
     @FocusState private var isRollFieldFocused: Bool
 
-    private var toolColumns: [GridItem] {
+    private func toolColumns(containerWidth: CGFloat) -> [GridItem] {
         if dynamicTypeSize.isAccessibilitySize {
-            [GridItem(.flexible())]
-        } else {
-            [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
-            ]
+            return [GridItem(.flexible())]
         }
+
+        let count = usesWideLayout(containerWidth: containerWidth) ? 4 : 2
+        return Array(repeating: GridItem(.flexible(), spacing: 12), count: count)
     }
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 if usesWideLayout(containerWidth: geometry.size.width) {
-                    VStack(spacing: 24) {
-                        hero
-                        HStack(alignment: .top, spacing: 24) {
-                            VStack(spacing: 28) {
-                                if !recentStore.documents.isEmpty {
-                                    quickSearches
-                                }
-                                quickTools
-                            }
-                            .frame(maxWidth: .infinity, alignment: .top)
+                    VStack(spacing: 0) {
+                        hero(containerWidth: geometry.size.width)
 
-                            VStack(spacing: 28) {
-                                recentSearches
-                            }
-                            .frame(width: 400, alignment: .top)
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.bottom, 80)
-                    }
-                    .frame(maxWidth: 1180)
-                    .frame(maxWidth: .infinity)
-                } else {
-                    LazyVStack(spacing: 0) {
-                        hero
                         VStack(spacing: 28) {
                             if !recentStore.documents.isEmpty {
                                 quickSearches
                             }
-                            quickTools
+                            quickTools(containerWidth: geometry.size.width)
+                            recentSearches
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 28)
+                        .padding(.bottom, 80)
+                        .frame(maxWidth: 1180)
+                    }
+                    .frame(maxWidth: .infinity)
+                } else {
+                    LazyVStack(spacing: 0) {
+                        hero(containerWidth: geometry.size.width)
+                        VStack(spacing: 28) {
+                            if !recentStore.documents.isEmpty {
+                                quickSearches
+                            }
+                            quickTools(containerWidth: geometry.size.width)
                             recentSearches
                         }
                         .padding(.horizontal, 16)
@@ -129,16 +122,61 @@ struct HomeView: View {
     private func usesWideLayout(containerWidth: CGFloat) -> Bool {
         horizontalSizeClass == .regular
             && !dynamicTypeSize.isAccessibilitySize
-            && containerWidth >= 900
+            && containerWidth >= 760
     }
 
     @ViewBuilder
-    private var hero: some View {
+    private func hero(containerWidth: CGFloat) -> some View {
         if dynamicTypeSize.isAccessibilitySize {
             accessibilityHero
+        } else if usesWideLayout(containerWidth: containerWidth) {
+            regularWidthHero
         } else {
             standardHero
         }
+    }
+
+    private var regularWidthHero: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 10) {
+                appMark
+
+                Text("JNTUH Connect")
+                    .font(.headline.weight(.semibold))
+
+                Spacer()
+
+                Text("Student portal")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.62))
+            }
+            .padding(.top, 56)
+            .contentShape(Rectangle())
+            .onTapGesture { isRollFieldFocused = false }
+
+            HStack(alignment: .bottom, spacing: 48) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Your academic record, made simple.")
+                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                        .tracking(-0.7)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text("Search results, backlogs and credits with your hall ticket number.")
+                        .font(.subheadline)
+                        .foregroundStyle(.white.opacity(0.7))
+                        .lineSpacing(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .frame(maxWidth: 470, alignment: .leading)
+
+                searchPanel
+                    .frame(maxWidth: 600)
+            }
+            .padding(.top, 30)
+        }
+        .frame(maxWidth: 1180)
+        .frame(maxWidth: .infinity)
+        .heroStyle(colorScheme: colorScheme)
     }
 
     private var standardHero: some View {
@@ -288,14 +326,14 @@ struct HomeView: View {
         .accessibilityLabel("View result")
     }
 
-    private var quickTools: some View {
+    private func quickTools(containerWidth: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             sectionHeading(
                 title: "Quick tools",
                 subtitle: "Results and academic resources"
             )
 
-            LazyVGrid(columns: toolColumns, spacing: 12) {
+            LazyVGrid(columns: toolColumns(containerWidth: containerWidth), spacing: 12) {
                 ForEach(QuickToolDestination.allCases) { tool in
                     QuickToolCard(tool: tool) {
                         isRollFieldFocused = false
