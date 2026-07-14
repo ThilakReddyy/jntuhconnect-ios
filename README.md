@@ -1,83 +1,216 @@
-# JNTUH Connect for iOS
+# 📚 JNTUH Connect for iOS
 
-JNTUH Connect is a native SwiftUI app that gives Jawaharlal Nehru Technological University Hyderabad students one place to view academic results, analyze performance, and browse university resources.
+<p align="center">
+  <img src="JntuhConnect/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png" alt="JNTUH Connect Logo" width="100"/>
+</p>
 
-This repository contains the iPhone and iPad counterpart to JNTUH Connect for Android. It is a community project and is not an official JNTUH application.
+<p align="center">
+  <b>Your one-stop native iOS app for JNTUH students — check results, track academic progress, and stay updated.</b>
+</p>
 
-## Highlights
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-iOS-000000?style=for-the-badge&logo=apple" alt="Platform iOS"/>
+  <img src="https://img.shields.io/badge/Language-Swift%206-F05138?style=for-the-badge&logo=swift" alt="Swift 6"/>
+  <img src="https://img.shields.io/badge/UI-SwiftUI-0D96F6?style=for-the-badge&logo=swift" alt="SwiftUI"/>
+  <img src="https://img.shields.io/badge/Min%20iOS-18.0-green?style=for-the-badge" alt="Minimum iOS 18"/>
+  <img src="https://img.shields.io/badge/Version-1.0.0-orange?style=for-the-badge" alt="Version 1.0.0"/>
+</p>
 
-- Search by a validated 10-character hall-ticket number.
-- View academic summaries, semester results, every published attempt, active backlogs, and earned credits.
-- Compare the results of two students.
-- Review academic and backlog data for a class.
-- Check initial grace-marks eligibility and upload supporting proof.
-- Browse JNTUH notifications, academic calendars, and syllabus documents.
-- Open community channels and built-in help content.
-- Keep up to eight recent students on-device for quick access.
-- Choose system, light, or dark appearance.
-- Use layouts designed for iPhone, iPad, Dynamic Type, and VoiceOver.
+<p align="center">
+  <a href="https://github.com/ThilakReddyy/jntuhconnect">Android version</a>
+  ·
+  <a href="https://jntuhconnect.dhethi.com">JNTUH Connect website</a>
+</p>
 
-## Technology
+---
 
-- Swift 6
-- SwiftUI and Observation
-- Structured concurrency with an actor-isolated API client
-- URLSession with ephemeral, non-caching network configuration
-- Swift Testing for unit and integration tests
-- XCTest for end-to-end UI tests
-- XcodeGen for reproducible project generation
-- No third-party runtime dependencies
+## ✨ Features
 
-## Requirements
+| Feature | Description |
+|---|---|
+| 🔍 **Result Search** | Search JNTUH results with a validated hall-ticket number and quickly reopen recent students |
+| 📊 **Student Results** | View academic summaries, semester performance, subject marks, grades, SGPA, and CGPA |
+| 📚 **All Results** | Browse every published regular, supplementary, RCRV, and grace-marks attempt |
+| 🎓 **Credits Tracker** | Compare obtained credits with regulation requirements and year-wise progress |
+| 🏆 **Class Results** | Rank cleared students by CGPA while separating backlogged and unsynced records |
+| ⚖️ **Result Contrast** | Compare the academic performance of two students side by side |
+| 📝 **Grace Marks** | Check initial eligibility and upload PDF or image proof securely |
+| 📢 **Latest Updates** | Read live JNTUH notifications with All and Results filters |
+| 🗓️ **Academic Calendars** | Browse live, drill-down academic calendar trees from the backend |
+| 📖 **Syllabus** | Navigate syllabus documents by degree, regulation, branch, and subject |
+| 📡 **Channels & Help** | Open useful community channels and built-in support answers |
+| 🎨 **Adaptive UI** | Native light/dark themes, Dynamic Type, VoiceOver, and iPhone/iPad layouts |
+| 🔒 **Privacy-minded Storage** | Persist only up to eight recent student summaries; result payloads remain in memory |
 
-- macOS with Xcode 26.1 or newer
-- XcodeGen 2.45 or newer
-- An iOS 18 or newer simulator/device
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|---|---|
+| **Language** | Swift 6 |
+| **UI Framework** | SwiftUI |
+| **Architecture** | Feature-oriented SwiftUI with Domain and Networking layers |
+| **State Management** | Observation (`@Observable`, `@Bindable`) |
+| **Concurrency** | Swift structured concurrency and an actor-isolated API client |
+| **Networking** | URLSession + Codable/JSONDecoder |
+| **Navigation** | NavigationStack + TabView |
+| **Preferences** | UserDefaults for minimized recent-search summaries |
+| **Browser** | SFSafariViewController |
+| **Testing** | Swift Testing + XCTest UI tests |
+| **Project Generation** | XcodeGen |
+| **Dependencies** | No third-party runtime dependencies |
+
+---
+
+## 🏗️ Architecture
+
+The iOS project uses a feature-oriented structure with clear boundaries between app navigation, UI features, domain models, and networking:
+
+```text
+JntuhConnect/
+│
+├── App/                         # App entry point, root tabs, and navigation routes
+│
+├── Design/                      # Theme, cards, loading UI, and in-app browser
+│
+├── Domain/                      # Result, content, roll-number, and persistence models
+│
+├── Features/                    # User-facing SwiftUI features
+│   ├── Home/                    # Hall-ticket search and recent students
+│   ├── Results/                 # Results, credits, contrast, class, and grace marks
+│   ├── Explore/                 # Tools, calendars, syllabus, channels, and help
+│   ├── Updates/                 # Live JNTUH notifications
+│   └── Profile/                 # Appearance, local data, support, and about settings
+│
+├── Networking/                  # API client, endpoints, requests, and response handling
+│
+└── Resources/                   # App assets, Info.plist, and privacy manifest
+
+JntuhConnectTests/               # Unit and opt-in live integration tests
+JntuhConnectUITests/             # End-to-end, adaptive-layout, and visual UI tests
+```
+
+The primary data flow is:
+
+```text
+SwiftUI View → @Observable Store → APIClient actor → Endpoint/APIRequestFactory
+                                             ↓
+                                  Decodable domain models
+```
+
+`RootView` owns the shared `NavigationStack`, three root tabs, recent-search store, and pushed routes. Feature stores own loading, pending, unavailable, success, and error states. The shared `APIClient` actor owns its ephemeral URLSession and JSON decoder.
+
+---
+
+## 🌐 API
+
+The app communicates with the JNTUH Connect backend at:
+
+```text
+https://jntuhresults.dhethi.com/api/
+```
+
+### Key Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `GET /getAcademicResult?rollNumber=` | Fetch consolidated academic results |
+| `GET /getAllResult?rollNumber=` | Fetch every published semester attempt |
+| `GET /getBacklogs?rollNumber=` | Fetch active backlog subjects |
+| `GET /getCreditsChecker?rollNumber=` | Fetch obtained and required credits |
+| `GET /getResultContrast?rollNumber1=&rollNumber2=` | Compare two students |
+| `GET /getClassResults?rollNumber=&type=` | Fetch academic or backlog class data |
+| `GET /grace-marks/eligibility?rollNumber=` | Check initial grace-marks eligibility |
+| `POST /grace-marks/proof?rollNumber=` | Upload grace-marks supporting proof |
+| `GET /notifications?page=&category=` | Fetch paginated JNTUH updates |
+| `GET /calendars` | Fetch the academic calendar tree |
+| `GET /syllabus` | Fetch the syllabus tree |
+
+Requests require the public mobile gateway header `X-Api-Key`. See the setup instructions below to configure it locally.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- macOS with **Xcode 26.1** or later
+- **XcodeGen 2.45** or later
+- An iOS **18.0+** simulator or device
 - A public mobile gateway key for the JNTUH Connect API
 
-The deployment target is iOS 18.0. The test command below uses the iPhone 17 Pro simulator on iOS 26.1; substitute any installed simulator that meets the deployment target.
+### Setup
 
-## Getting started
+1. **Clone the repository**
 
-1. Clone the repository and enter it:
-
-   ```sh
-   git clone git@github.com:ThilakReddyy/jntuhconnect-ios.git
+   ```bash
+   git clone https://github.com/ThilakReddyy/jntuhconnect-ios.git
    cd jntuhconnect-ios
    ```
 
-2. Install XcodeGen if it is not already available:
+2. **Install XcodeGen**
 
-   ```sh
+   ```bash
    brew install xcodegen
    ```
 
-3. Create the local API configuration:
+3. **Create the local API configuration**
 
-   ```sh
+   ```bash
    cp Config/Secrets.example.xcconfig Config/Secrets.xcconfig
    ```
 
-4. Set the public gateway key in `Config/Secrets.xcconfig`:
+4. **Add the public gateway key**
 
    ```xcconfig
    JNTUH_API_KEY = your-public-mobile-access-key
    ```
 
-5. Generate and open the Xcode project:
+5. **Generate and open the project**
 
-   ```sh
+   ```bash
    xcodegen generate
    open JntuhConnect.xcodeproj
    ```
 
-6. Select the `JntuhConnect` scheme and run it on an iOS 18+ simulator. To use a physical device, select an appropriate development team and signing identity in Xcode.
+6. **Build and run**
 
-The generated app configuration expands `JNTUH_API_KEY` into the `JNTUHAPIKey` Info.plist value. `APIRequestFactory` sends it as `X-Api-Key` only to the configured JNTUH Connect backend.
+   - Select the `JntuhConnect` scheme.
+   - Choose an iOS 18+ simulator and click ▶️ **Run**.
+   - For a physical device, select your Apple development team in Xcode.
 
-## Build from the command line
+`Config/Secrets.xcconfig` is ignored by Git. Regenerate the Xcode project after changing `project.yml` or project configuration files.
 
-```sh
+---
+
+## 📱 Navigation
+
+The app is organized into **three tabs**, with result details and resources pushed from a shared navigation stack:
+
+| Tab | Description |
+|---|---|
+| 🏠 **Home** | Search a hall-ticket number, open unified student results, and revisit recent students |
+| 🧭 **Explore** | Access result tools, class analysis, grace marks, updates, calendars, syllabus, channels, and help |
+| ⚙️ **Settings** | Change appearance, clear local recent searches, open support, and view app information |
+
+---
+
+## 📦 Build Configuration
+
+| Property | Value |
+|---|---|
+| Product Bundle ID | `com.dhethi.jntuhconnect.ios` |
+| Deployment Target | iOS 18.0 |
+| Swift Version | 6.0 |
+| Marketing Version | 1.0.0 |
+| Build Number | 1 |
+| Supported Devices | iPhone and iPad |
+| Project Source of Truth | `project.yml` |
+
+### Command-line Build
+
+```bash
 xcodebuild \
   -project JntuhConnect.xcodeproj \
   -scheme JntuhConnect \
@@ -85,13 +218,15 @@ xcodebuild \
   build CODE_SIGNING_ALLOWED=NO
 ```
 
-If `project.yml` changes, run `xcodegen generate` before building so the checked-in Xcode project stays in sync.
+Replace the simulator name and OS version with any installed destination that supports iOS 18 or later.
 
-## Tests
+---
+
+## 🧪 Testing
 
 Run the complete unit and UI test suite:
 
-```sh
+```bash
 xcodebuild \
   -project JntuhConnect.xcodeproj \
   -scheme JntuhConnect \
@@ -101,7 +236,7 @@ xcodebuild \
 
 Run only the unit tests:
 
-```sh
+```bash
 xcodebuild \
   -project JntuhConnect.xcodeproj \
   -scheme JntuhConnect \
@@ -110,62 +245,49 @@ xcodebuild \
   test CODE_SIGNING_ALLOWED=NO
 ```
 
-Some UI and live integration tests contact the deployed backend, so they require network access and a valid API key.
+The live integration test is opt-in through `RUN_LIVE_API_TESTS=1`. Several UI tests also load live result data, so they require network access and a valid gateway key.
 
-## App structure
+---
 
-| Path | Responsibility |
-| --- | --- |
-| `JntuhConnect/App` | App entry point, root tabs, and navigation |
-| `JntuhConnect/Design` | Theme, reusable visual styles, and in-app browser |
-| `JntuhConnect/Domain` | Result, content, roll-number, and persistence models |
-| `JntuhConnect/Features/Home` | Hall-ticket search and recent students |
-| `JntuhConnect/Features/Results` | Student results, class analysis, contrast, and grace marks |
-| `JntuhConnect/Features/Explore` | Tools, calendars, syllabus, channels, and help |
-| `JntuhConnect/Features/Updates` | Paginated JNTUH notifications |
-| `JntuhConnect/Features/Profile` | Appearance, local-data controls, and app information |
-| `JntuhConnect/Networking` | Endpoints, request construction, response validation, and API client |
-| `JntuhConnectTests` | Unit and opt-in live API integration tests |
-| `JntuhConnectUITests` | User-flow, adaptive-layout, and visual UI tests |
-| `project.yml` | XcodeGen source of truth |
+## 🔐 Security & Privacy
 
-The app uses a root-owned `NavigationStack` around a three-tab interface. Feature stores own loading and error state, while the shared `APIClient` actor serializes access to the JSON decoder and network session. Result payloads stay in memory; only a minimized recent-student summary is persisted.
+- The app uses an ephemeral URLSession with no URL cache for API requests.
+- Academic result responses are kept in memory and are not persisted by the app.
+- Only up to eight recent student summaries—name, hall-ticket number, and branch—are saved in UserDefaults.
+- Recent searches can be removed at any time from Settings.
+- Grace-marks proof accepts PDF, PNG, and JPEG files up to 5 MB and uploads only after explicit user action.
+- The privacy manifest declares UserDefaults access, and app tracking is disabled.
+- Document links are restricted to HTTP/HTTPS and opened with SFSafariViewController.
 
-## API and security notes
+The mobile `X-Api-Key` is a public gateway value, not a durable security boundary; any static key distributed in an app can be extracted. Never add admin keys, database credentials, cloud credentials, signing material, or other privileged backend secrets to this project.
 
-`Config/Secrets.xcconfig` is intentionally ignored by Git. Never commit real keys or replace the example value with a working credential.
+---
 
-The mobile `X-Api-Key` is a public gateway value, not a durable security boundary: any static key shipped in an app can be extracted. Do not place `GRACE_MARKS_ADMIN_KEY`, database credentials, AWS credentials, signing material, or other privileged backend secrets in this project. Sensitive backend operations should use App Attest, DeviceCheck, or another short-lived token exchange.
+## 🤝 Contributing
 
-The API client:
+Contributions are welcome! If you would like to improve the iOS app:
 
-- Talks to `https://jntuhresults.dhethi.com/api/`.
-- Uses an ephemeral URLSession without a response cache.
-- Applies request and resource timeouts.
-- Maps offline, timeout, rate-limit, pending-result, HTTP, and decoding failures to user-facing states.
-- Restricts document links to HTTP/HTTPS and routes supported links through the in-app browser.
-- Accepts grace-proof PDF, PNG, and JPEG files up to 5 MB.
+1. Fork the repository.
+2. Create a branch: `git checkout -b feature/your-feature-name`.
+3. Commit your changes: `git commit -m 'Add some feature'`.
+4. Push the branch: `git push origin feature/your-feature-name`.
+5. Open a pull request.
 
-## Privacy
+Please run the relevant unit and UI tests before submitting changes. Do not commit `Config/Secrets.xcconfig`, Xcode user data, screenshots, test artifacts, or credentials.
 
-- The app does not enable tracking.
-- Academic result responses are not persisted by the app.
-- Up to eight recent student summaries—name, hall-ticket number, and branch—are stored in UserDefaults on the device and can be cleared from Settings.
-- Grace-mark proof files are uploaded only after the user explicitly selects and submits a file.
-- The included privacy manifest declares UserDefaults access.
+---
 
-Review the backend's privacy and retention policies before distributing a production build.
+## ⚠️ Disclaimer
 
-## Supported scope
+JNTUH Connect is a community project and is not an official application of Jawaharlal Nehru Technological University Hyderabad. Result availability and accuracy depend on data published by JNTUH and the JNTUH Connect backend. Records that are pending or not synced are shown separately where supported.
 
-The current app includes native result flows, class analysis, grace-marks proof upload, live updates, academic calendar and syllabus browsers, community links, help content, appearance controls, accessibility support, and adaptive iPad layouts.
+---
 
-The experience depends on data published by JNTUH and the availability and shape of the JNTUH Connect API. Results may be pending or partially synced, and the app presents those records separately instead of treating missing data as an academic result.
+## 👨‍💻 Author
 
-## Troubleshooting
+**Thilak Reddy**<br>
+GitHub: [@ThilakReddyy](https://github.com/ThilakReddyy)
 
-- **“Missing public API access configuration”**: create `Config/Secrets.xcconfig`, set `JNTUH_API_KEY`, and regenerate the project.
-- **Project settings look stale**: run `xcodegen generate` after changing `project.yml` or configuration files.
-- **Simulator destination not found**: run `xcrun simctl list devices available` and replace the destination in the build/test command.
-- **Signing fails on a physical device**: configure your Apple development team and use a bundle identifier available to that team.
-- **Live tests fail while unit tests pass**: confirm the network is available and the gateway key is valid.
+---
+
+<p align="center">Made with ❤️ for JNTUH Students</p>
