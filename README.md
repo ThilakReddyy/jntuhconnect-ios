@@ -17,6 +17,12 @@
 </p>
 
 <p align="center">
+  <a href="https://apps.apple.com/in/app/jntuh-connect/id6790828236">
+    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" height="55"/>
+  </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/ThilakReddyy/jntuhconnect">Android version</a>
   ·
   <a href="https://jntuhconnect.dhethi.com">JNTUH Connect website</a>
